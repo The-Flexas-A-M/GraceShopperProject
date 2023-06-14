@@ -1,6 +1,7 @@
 'use strict'
 
 const {db, models: {User, Product, CartItem, Order} } = require('../server/db')
+const OrderItem = require('../server/db/models/OrderItem')
 
 
 /**
@@ -185,7 +186,59 @@ async function seed() {
     }),
   ])
 
-  console.log(`seeded ${users.length} users`, `seeded ${products.length}`,`seeded ${cartItems.length}`, `seeded${orders.length}`)
+  // Creating OrderItem
+  const orderItems = await Promise([
+    OrderItem.create({
+      orderId: 1,
+      productId:1,
+      quantity: 1,
+      price: products[0].price // use the price of the product at the time of order
+    }),
+    OrderItem.create({
+      orderId: 1,
+      productId:2,
+      quantity: 1,
+      price: products[1].price 
+    }),
+    OrderItem.create({
+      orderId: 2,
+      productId:3,
+      quantity: 1,
+      price: products[2].price 
+    }),
+    OrderItem.create({
+      orderId: 2,
+      productId:4,
+      quantity: 1,
+      price: products[3].price 
+    }),
+    OrderItem.create({
+      orderId: 3,
+      productId:5,
+      quantity: 1,
+      price: products[4].price 
+    }),
+    OrderItem.create({
+      orderId: 3,
+      productId:6,
+      quantity: 1,
+      price: products[5].price 
+    }),
+    OrderItem.create({
+      orderId: 4,
+      productId:7,
+      quantity: 1,
+      price: products[6].price 
+    }),
+    OrderItem.create({
+      orderId: 4,
+      productId:8,
+      quantity: 1,
+      price: products[7].price 
+    }),
+  ])
+
+  console.log(`seeded ${users.length} users`, `seeded ${products.length}`,`seeded ${cartItems.length}`, `seeded${orders.length}`, `seeded${orderItems.length}`)
   console.log(`seeded successfully`)
   return {
     users: {
