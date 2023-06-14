@@ -1,6 +1,6 @@
 'use strict'
 
-const {db, models: {User, Product, CartItem, Order} } = require('../server/db')
+const {db, models: {User, Product, CartItem, Order, OrderItem} } = require('../server/db')
 const OrderItem = require('../server/db/models/OrderItem')
 
 
