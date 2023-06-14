@@ -11,6 +11,10 @@ const OrderItem = db.define('orderitem', {
             min: 1,
         },
     },
+    price : {
+        type: Sequelize.DECIMAL(10,2),
+        allowNull: false,
+    }
 });
 
 
