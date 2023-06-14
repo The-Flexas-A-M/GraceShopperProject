@@ -1,6 +1,7 @@
 'use strict'
 
-const {db, models: {User} } = require('../server/db')
+const {db, models: {User, Product} } = require('../server/db')
+
 
 /**
  * seed - this function clears the database, updates tables to
@@ -16,7 +17,7 @@ async function seed() {
       username: 'user1', 
       firstname: 'Jonh',
       lastname: 'Doe',
-      email: 'johnode@gmail.com',
+      email: 'johndoe@gmail.com',
       street: '123 Main St',
       city: 'New York',
       state: 'NY',
@@ -51,12 +52,79 @@ async function seed() {
     }),
   ])
 
-  console.log(`seeded ${users.length} users`)
+  const products = await Promise.all([
+    Product.create({
+      name: 'Diablo IV',
+      description: 'Diablo® IV is the next-gen action RPG experience with endless evil to slaughter, countless abilities to master, nightmarish Dungeons, and legendary loot. Embark on the campaign solo or with friends, meeting memorable characters through beautifully dark settings and a gripping story, or explore an expansive end game and shared world where players can meet in towns to trade, team up to battle World Bosses, or descend into PVP zones to test their skills against other players - no lobbies necessary - with cross-play and cross-progression on all available platforms. This is only the beginning for Diablo® IV, with new events, stories, seasons, rewards, and more looming on the horizon.',
+      price: 64.99,
+      inventory: 10,
+      imageUrl: '/images/Diablo IV.jpg',
+      genre: 'RPG'
+    }),
+    Product.create({
+      name: 'Wild Hearts',
+      description: 'Wild Hearts is a fresh take on adventure where the use of the ancient technology, Karakuri, allows you to wield a power strong enough to take down ancient nature-infused beasts. Hunt these fearsome creatures solo or take them on with up to two other players. Collect materials to build more armor and weapons as you stalk your prey across a fantasy medieval Japan filled with beauty and danger.',
+      price: 39.99,
+      inventory: 10,
+      imageUrl: '/images/Wild Hearts.jpg',
+      genre: 'RPG'
+    }),
+    Product.create({
+      name: 'God of War Ragnarok',
+      description: 'Embark on a mythic journey for answers and allies before Ragnarök arrives in God of War Ragnarok on PS5. Embark on an epic and heartfelt journey as Kratos and Atreus struggle with holding on and letting go.',
+      price: 44.99,
+      inventory: 10,
+      imageUrl: '/images/God of War.jpg',
+      genre: 'Action'
+    }),
+    Product.create({
+      name: 'The Legend of Zelda: Tears of the Kingdom',
+      description: 'An epic adventure across the land and skies of Hyrule awaits in The Legend of Zelda™: Tears of the Kingdom for Nintendo Switch. The adventure is yours to create in a world fueled by your imagination. In this sequel to The Legend of Zelda: Breath of the Wild, youll decide your own path through the sprawling landscapes of Hyrule and the mysterious islands floating in the vast skies above. Can you harness the power of Link’s new abilities to fight back against the malevolent forces that threaten the kingdom?',
+      price: 69.99,
+      inventory: 10,
+      imageUrl: '/images/The Legend of Zelda.jpg',
+      genre: 'Action'
+    }),
+    Product.create({
+      name: 'Street Fighter 6',
+      description: "Powered by Capcoms proprietary RE ENGINE, Street Fighter 6 spans three distinct game modes, including Fighting Ground, World Tour and Battle Hub. The experience also includes innovative new gameplay features, plus enhanced visuals for every aspect of the game.",
+      price: 54.99,
+      inventory: 10,
+      imageUrl: '/images/Street Fighter 6.jpg',
+      genre: 'Fighting'
+    }),
+    Product.create({
+      name: 'Mortal Kombat 1 Premium Edition',
+      description: "Discover a reborn Mortal Kombat Universe created by the Fire God Liu Kang. Mortal Kombat 1 ushers in a new era of the iconic franchise with a new fighting system, game modes, and fatalities!",
+      price: 109.99,
+      inventory: 10,
+      imageUrl: '/images/Mortal Kombat 1.jpg',
+      genre: 'Fighting'
+    }),
+    Product.create({
+      name: 'Madden NFL 24',
+      description: 'Exemplify greatness in Madden NFL 24! Lead your team to a Super Bowl victory in Franchise, build a powerhouse Madden Ultimate Team™, take over The Yard, be the star in Face of the Franchise, and unleash your X-Factors in SSKO.',
+      price: 69.99,
+      inventory: 10,
+      imageUrl: '/images/Madden NFL 24.jpg',
+      genre: 'Sports'
+    }),
+    Product.create({
+      name: 'WWE 2K23 Deluxe Edition',
+      description: 'WWE 2K23 is the latest installment in the long-running series of professional wrestling games developed by 2K Games. the newest game in the series is set to feature an extensive roster of wrestlers and a wide variety of match types and game modes. The WWE 2K23 Roster will include a huge list of superstars from Raw, SmackDown, NXT, and NXT UK, and even WWE Legends!',
+      price: 99.99,
+      inventory: 10,
+      imageUrl: '/images/WWE 2K23.jpg',
+      genre: 'Sports'
+    }),
+  ])
+
+  console.log(`seeded ${users.length} users`, `seeded ${products.length}`)
   console.log(`seeded successfully`)
   return {
     users: {
-      cody: users[0],
-      murphy: users[1]
+      user1: users[0],
+      user2: users[1]
     }
   }
 }
