@@ -13,9 +13,13 @@ const User = db.define('user', {
   },
   firstname: {
     type: Sequelize.STRING,
+    allowNull: false
+
   },
   lastname: {
     type: Sequelize.STRING,
+    allowNull: false
+
   },
   email: {
     type: Sequelize.STRING,
@@ -23,6 +27,8 @@ const User = db.define('user', {
     validate: {
       isEmail: true,
       notEmpty: true,
+      allowNull: false
+
     },
   },
   street : {
