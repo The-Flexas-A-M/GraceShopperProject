@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { authenticate } from '../../app/store';
-
 /**
   The AuthForm component can be used for Login or Sign Up.
   Props for Login: name="login", displayName="Login"
@@ -12,12 +12,12 @@ const AuthForm = ({ name, displayName }) => {
   const { error } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
     const formName = evt.target.name;
     const username = evt.target.username.value;
     const password = evt.target.password.value;
-    dispatch(authenticate({ username, password, method: formName }));
+    dispatch(authenticate({ username, password, method: formName }))
   };
 
   return (
@@ -25,7 +25,7 @@ const AuthForm = ({ name, displayName }) => {
         {
           window.location.pathname === "/signup" ? (
             <form onSubmit={handleSubmit} name={name} id="signin-form">
-              <h1>Don't have an account? Sign up.</h1>
+              <h1>Don't have an account? <span>Sign up.</span></h1>
               <div class="input-container">
                 <label htmlFor="firstname">
                   <small>First Name</small>
@@ -64,7 +64,7 @@ const AuthForm = ({ name, displayName }) => {
             </form>
           ) : (
             <form onSubmit={handleSubmit} name={name} id="signin-form">
-              <h1>Have an existing account? Log in.</h1>
+              <h1>Have an existing account? <span>Log in.</span></h1>
               <div class="input-container">
                 <label htmlFor="username">
                   <small>Username</small>
