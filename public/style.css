@@ -68,3 +68,7 @@ form div {
 .search > button:hover {
   background-color: lightgrey;
 }
+
+.drawer-paper {
+  width: 25%;
+}

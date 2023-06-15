@@ -165,6 +165,7 @@ const Navbar = () => {
       <Drawer
         open={drawerOpen}
         onClose={toggleDrawer(false)} // This will close the drawer when user clicks outside it
+        classes={{ paper: 'drawer-paper' }}
       >
         <SideNavBar />
       </Drawer>
