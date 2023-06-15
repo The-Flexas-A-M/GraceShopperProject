@@ -36,10 +36,15 @@ form div {
 }
 
 #logout {
-  text-decoration: none;
+  /* text-decoration: none; */
   font-size: 1rem;
   padding: 0.5em;
   cursor: pointer;
+  border-radius: 0.5em;
+}
+
+#logout:hover {
+  background-color: lightgrey;
 }
 
 #login-nav {
@@ -90,6 +95,10 @@ form div {
   /* margin: 0.5em; */
 }
 
+span {
+  color: maroon;
+}
+
 #signin-form > a {
   text-align: center;
   color: black;
@@ -118,14 +127,17 @@ form div {
   border: 1px solid lightgrey;
   padding: 0.5em;
   cursor: pointer;
+  background-color: maroon;
+  color: white;
 }
 
 .input-container > button:hover {
-  background-color: lightgrey;
+  background-color: red;
 }
 
 .input-container > label {
   margin-left: 0.5em;
+  color: maroon;
 }
 
 @media screen and (min-width: 600px) {

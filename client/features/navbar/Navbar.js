@@ -125,7 +125,7 @@ const Navbar = () => {
             ) : (
               <div>
                 <Link class="signin-up" to="/login">Login</Link>
-                <Link class="signin-up" to="/signup">Sign Up</Link>
+                {/* <Link class="signin-up" to="/signup">Sign Up</Link> */}
               </div>
             )}
           </nav>
