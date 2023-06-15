@@ -13,7 +13,7 @@ const Order = db.define('order', {
         }
     },
     total: {
-        type: Sequelize.STRING,
+        type: Sequelize.DECIMAL(10,2),
         defaultValue: 0.00
     }
 })
