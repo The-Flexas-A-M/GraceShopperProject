@@ -1,19 +1,20 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { logout } from '../../app/store';
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../../app/store";
 // import { Search } from '@mui/icons-material';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import { styled, alpha } from '@mui/material/styles';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import InputBase from "@mui/material/InputBase";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import { styled, alpha } from "@mui/material/styles";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Drawer from "@mui/material/Drawer";
+import SideNavBar from "../sidenavbar/SideNavBar";
 
 // const Search = styled('div')(({ theme }) => ({
 //   position: 'relative',
@@ -63,21 +64,34 @@ const Navbar = () => {
   const navigate = useNavigate();
   const logoutAndRedirectHome = () => {
     dispatch(logout());
-    navigate('/login');
+    navigate("/login");
+  };
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setDrawerOpen(open);
   };
 
   return (
-
     <Box
-      sx={{ 
-        flexGrow: 1 
-      }}>
+      sx={{
+        flexGrow: 1,
+      }}
+    >
       <AppBar position="static">
         <Toolbar
-          sx={{bgcolor: 'maroon',
-          height: '10vh',
-          display: 'flex',
-          // justifyContent: 'space-between',
+          sx={{
+            bgcolor: "maroon",
+            height: "10vh",
+            display: "flex",
+            // justifyContent: 'space-between',
           }}
         >
           <IconButton
@@ -92,17 +106,22 @@ const Navbar = () => {
           </IconButton>
 
           <div class="search">
-            <input type="text" placeholder="Search by name, genre, or platform..." />
+            <input
+              type="text"
+              placeholder="Search by name, genre, or platform..."
+            />
             <button type="submit">Go!</button>
           </div>
-          <Typography variant="h6" component="div" 
-          sx={{
-            flexGrow: 1,
-            display: 'flex',
-            justifyContent: 'center', 
-            fontFamily: 'Oswald, sans-serif',
-            fontSize: '2.5rem',
-          }}
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              justifyContent: "center",
+              fontFamily: "Oswald, sans-serif",
+              fontSize: "2.5rem",
+            }}
           >
             GameWorld
           </Typography>
@@ -118,23 +137,38 @@ const Navbar = () => {
           <nav id="login-nav">
             {isLoggedIn ? (
               <div>
-                <Link class="signin-up" to="/home">Home</Link>
-                <button id="logout" type="button" onClick={logoutAndRedirectHome}>
+                <Link class="signin-up" to="/home">
+                  Home
+                </Link>
+                <button
+                  id="logout"
+                  type="button"
+                  onClick={logoutAndRedirectHome}
+                >
                   Logout
                 </button>
               </div>
             ) : (
               <div>
-                <Link class="signin-up" to="/login">Login</Link>
-                <Link class="signin-up" to="/signup">Sign Up</Link>
+                <Link class="signin-up" to="/login">
+                  Login
+                </Link>
+                <Link class="signin-up" to="/signup">
+                  Sign Up
+                </Link>
               </div>
             )}
           </nav>
-            {/* <Button color="inherit">Login</Button> */}
+          {/* <Button color="inherit">Login</Button> */}
         </Toolbar>
       </AppBar>
+      <Drawer
+        open={drawerOpen}
+        onClose={toggleDrawer(false)} // This will close the drawer when user clicks outside it
+      >
+        <SideNavBar />
+      </Drawer>
     </Box>
-
 
     // <div class="flex bg-red-800 h-[10vh] justify-between">
     //   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
