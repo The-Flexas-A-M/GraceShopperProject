@@ -36,14 +36,23 @@ form div {
 }
 
 #logout {
-  text-decoration: none;
+  /* text-decoration: none; */
   font-size: 1rem;
   padding: 0.5em;
   cursor: pointer;
+  border-radius: 0.5em;
+}
+
+#logout:hover {
+  background-color: lightgrey;
 }
 
 #login-nav {
   justify-content: flex-end;
+}
+
+.search {
+  display: none;
 }
 
 .search > input {
@@ -71,4 +80,77 @@ form div {
 
 .drawer-paper {
   width: 25%;
+}
+
+#signin-form {
+  border: 1px solid lightgrey;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-content: center; */
+  /* height: 50vh; */
+  /* width: 50vw; */
+  margin: auto;
+  padding: 1.5em;
+}
+
+#signin-form > h1 {
+  text-align: center;
+  /* margin: 0.5em; */
+}
+
+span {
+  color: maroon;
+}
+
+#signin-form > a {
+  text-align: center;
+  color: black;
+  /* margin: 0.5em; */
+}
+
+#signin-form > a:hover {
+  color: grey;
+}
+
+.input-container > input {
+  width: 20em;
+  height: 1.5em;
+  border-radius: 0.5em;
+  border: 1px solid lightgrey;
+  padding: 0.5em;
+  margin-top: 0.5rem;
+}
+
+.input-container > button {
+  /* box-sizing: border-box; */
+  /* margin-left: 0.5em; */
+  height: 2.7em;
+  width: 5em; 
+  border-radius: 0.5em;
+  border: 1px solid lightgrey;
+  padding: 0.5em;
+  cursor: pointer;
+  background-color: maroon;
+  color: white;
+}
+
+.input-container > button:hover {
+  background-color: red;
+}
+
+.input-container > label {
+  margin-left: 0.5em;
+  color: maroon;
+}
+
+@media screen and (min-width: 600px) {
+  .search {
+    display: flex;
+  }
+
+  #signin-form {
+    width: 30vw;
+    /* height: 50vh; */
+  }
 }

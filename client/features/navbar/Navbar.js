@@ -150,16 +150,11 @@ const Navbar = () => {
               </div>
             ) : (
               <div>
-                <Link class="signin-up" to="/login">
-                  Login
-                </Link>
-                <Link class="signin-up" to="/signup">
-                  Sign Up
-                </Link>
+                <Link class="signin-up" to="/login">Login</Link>
+                <Link class="signin-up" to="/signup">Sign Up</Link>
               </div>
             )}
           </nav>
-          {/* <Button color="inherit">Login</Button> */}
         </Toolbar>
       </AppBar>
       <Drawer
