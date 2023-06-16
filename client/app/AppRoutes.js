@@ -5,6 +5,8 @@ import AuthForm from '../features/auth/AuthForm';
 import Home from '../features/home/Home';
 import Cart from '../features/cart/Cart';
 import { me } from './store';
+import AllProducts from '../features/Allproducts/AllProducts';
+import SingleProduct from '../features/SingleProduct/SingleProduct';
 
 /**
  * COMPONENT
@@ -20,15 +22,22 @@ const AppRoutes = () => {
 
   return (
     <div>
+
+
       {isLoggedIn ? (
+     
         <Routes>
+            
+          <Route path="/allproducts" element={<AllProducts/>}/>
+          <Route path="/products/:id" element={<SingleProduct/>}/>
           <Route path="/*" element={<Home />} />
-          <Route to="/home" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          
         </Routes>
       ) : (
         <Routes>
           <Route path="/*" element={<Home />} />
-          <Route to="/home" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route
             path="/login"
             element={<AuthForm name="login" displayName="Login" />}
