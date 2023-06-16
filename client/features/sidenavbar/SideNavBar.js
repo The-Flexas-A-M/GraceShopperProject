@@ -26,7 +26,8 @@ const SideNavBar = () => {
           <ListSubheader
             component="div"
             id="nested-list-subheader"
-          ></ListSubheader>
+          >Menu
+          </ListSubheader>
         }
       >
         <ListItemButton>
@@ -48,18 +49,18 @@ const SideNavBar = () => {
               </Link>
             </ListItemButton>
             <ListItemButton sx={{ pl: 4 }}>
-              <Link to='/genre/fighting'>
-              <ListItemText primary="Fighting" />
+              <Link to="/genre/fighting">
+                <ListItemText primary="Fighting" />
               </Link>
             </ListItemButton>
-            <ListItemButton>
-              <Link to='/genre/action'>
-              <ListItemText primary="Action" />
+            <ListItemButton sx={{ pl: 4 }}>
+              <Link to="/genre/action">
+                <ListItemText primary="Action" />
               </Link>
             </ListItemButton>
-            <ListItemButton>
-            <Link to='/genre/sports'>
-              <ListItemText primary="Sports" />
+            <ListItemButton sx={{ pl: 4 }}>
+              <Link to="/genre/sports">
+                <ListItemText primary="Sports" />
               </Link>
             </ListItemButton>
           </List>
