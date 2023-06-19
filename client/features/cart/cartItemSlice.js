@@ -41,7 +41,7 @@ export const cartItemSlice = createSlice({
     }),
       builder.addCase(fetchCartItems.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.carItem = action.payload;
+        state.cartItem = action.payload;
       }),
       builder.addCase(fetchCartItems.rejected, (state, action) => {
         state.status = "failed";
@@ -49,7 +49,7 @@ export const cartItemSlice = createSlice({
       });
       builder.addCase(removeCartItem.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.carItem = state.carItem.filter(item => item.id !== action.payload);
+        state.cartItem = state.carItem.filter(item => item.id !== action.payload);
       });
       builder.addCase(removeCartItem.rejected, (state, action) => {
         state.status = "failed";
