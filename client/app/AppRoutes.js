@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Route, Routes } from 'react-router-dom';
-import AuthForm from '../features/auth/AuthForm';
-import Home from '../features/home/Home';
-import Cart from '../features/cart/Cart';
-import { me } from './store';
-import AllProducts from '../features/Allproducts/AllProducts';
-import SingleProduct from '../features/SingleProduct/SingleProduct';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Route, Routes } from "react-router-dom";
+import AuthForm from "../features/auth/AuthForm";
+import Home from "../features/home/Home";
+import Cart from "../features/cart/Cart";
+import { me } from "./store";
+import AllProducts from "../features/Allproducts/AllProducts";
+import SingleProduct from "../features/SingleProduct/SingleProduct";
 
 /**
  * COMPONENT
@@ -22,21 +22,15 @@ const AppRoutes = () => {
 
   return (
     <div>
-
-
       {isLoggedIn ? (
-     
         <Routes>
-            
-          <Route path="/allproducts" element={<AllProducts/>}/>
-          <Route path="/products/:id" element={<SingleProduct/>}/>
-          <Route path="/*" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          
+          <Route path="/allproducts" element={<AllProducts />} />
+          <Route path="/products/:id" element={<SingleProduct />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       ) : (
         <Routes>
-          <Route path="/*" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route
             path="/login"
@@ -46,7 +40,9 @@ const AppRoutes = () => {
             path="/signup"
             element={<AuthForm name="signup" displayName="Sign Up" />}
           />
-          <Route path='/cart' element={<Cart />}/>
+          <Route path="/cart" element={<Cart />} />
+
+          <Route path="/*" element={<Home />} />
         </Routes>
       )}
     </div>
