@@ -18,7 +18,7 @@ const Cart = () => {
   useEffect(() => {
     if (userId) {
       dispatch(fetchCartItems(userId)).then((resultAction) => {
-        console.log("fetchCartItems result---->", resultAction.payload);
+        // console.log("fetchCartItems result---->", resultAction.payload);
       });
     }
   }, [userId, dispatch]);
