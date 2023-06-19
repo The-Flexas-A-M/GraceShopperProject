@@ -12,7 +12,7 @@ import { removeCartItem } from "./cartItemSlice";
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
-  console.log("this is item ----->", item);
+  // console.log("this is item ----->", item);
   const handleRemoveClick = () => {
     dispatch(removeCartItem(item.id));
   };

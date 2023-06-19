@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { CartItem, User, Product } = require('../db');
+const { CartItem, Product } = require('../db');
 
 router.get('/:userId', async (req, res, next) => {
   const userId = req.params.userId;
