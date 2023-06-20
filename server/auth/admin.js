@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const { isAdmin, requireToken } = require('./gatekeeper');
-const { Product } = require('../db/models');
-const { User } = require('../db/models');
+const { Product } = require('../db');
+const { User } = require('../db');
 
-router.use('/', isAdmin, requireToken);
+router.use('/', requireToken, isAdmin);
 
-router.post('/add', isAdmin, async (req, res, next) => {
+router.post('/add', requireToken, isAdmin, async (req, res, next) => {
     try {
         let { data } = req.body;
         let product = await Product.create(data);
@@ -15,7 +15,7 @@ router.post('/add', isAdmin, async (req, res, next) => {
     }
 })
 
-router.put('/edit/product/:id', isAdmin, async (req, res, next) => {
+router.put('/edit/product/:id', requireToken, isAdmin, async (req, res, next) => {
     try {
         let { data } = req.body;
         let product = await Product.findByPk(req.params.id);
@@ -26,7 +26,7 @@ router.put('/edit/product/:id', isAdmin, async (req, res, next) => {
     }
 })
 
-router.put('/edit/user/:id', isAdmin, async (req, res, next) => {
+router.put('/edit/user/:id', requireToken, isAdmin, async (req, res, next) => {
     try {
         let { data } = req.body;
         let user = await User.findByPk(req.params.id);
@@ -37,7 +37,7 @@ router.put('/edit/user/:id', isAdmin, async (req, res, next) => {
     }
 })
 
-router.delete('/delete/product/:id', isAdmin, async (req, res, next) => {
+router.delete('/delete/product/:id', requireToken, isAdmin, async (req, res, next) => {
     try {
         let product = await Product.findByPk(req.params.id);
         await product.destroy();
@@ -47,7 +47,7 @@ router.delete('/delete/product/:id', isAdmin, async (req, res, next) => {
     }
 })
 
-router.delete('/delete/user/:id', isAdmin, async (req, res, next) => {
+router.delete('/delete/user/:id', requireToken, isAdmin, async (req, res, next) => {
     try {
         let user = await User.findByPk(req.params.id);
         await user.destroy();
