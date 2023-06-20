@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { authenticate } from '../../app/store';
 /**
   The AuthForm component can be used for Login or Sign Up.

@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
+const { isAdmin } = require('./auth/gatekeeper')
 module.exports = app
 
 // logging middleware
@@ -34,6 +35,8 @@ app.use((req, res, next) => {
 app.use('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public/index.html'));
 })
+
+// app.use('/admin/dashboard', isAdmin)
 
 // error handling endware
 app.use((err, req, res, next) => {

@@ -8,8 +8,6 @@ router.get('/',async (req, res, next)=> {
     res.send(products)
 });
 
-
-
 module.exports = router
 
 
