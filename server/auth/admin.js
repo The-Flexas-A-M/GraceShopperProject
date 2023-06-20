@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { isAdmin, requireToken } = require('./gatekeeper');
-const { Product } = require('../db/models');
-const { User } = require('../db/models');
+const { Product } = require('../db');
+const { User } = require('../db');
 
 router.use('/', requireToken, isAdmin);
 
