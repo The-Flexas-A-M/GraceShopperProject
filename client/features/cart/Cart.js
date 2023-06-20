@@ -14,7 +14,10 @@ const Cart = () => {
   const error = useSelector((state) => state.cartItem.error);
 
   const subtotal = useMemo(() => {
-    return cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+    return cartItems.reduce(
+      (acc, item) => acc + item.product.price * item.quantity,
+      0
+    );
   }, [cartItems]);
 
   useEffect(() => {
@@ -41,13 +44,19 @@ const Cart = () => {
         marginTop: "1rem",
       }}
     >
-      <div>
+      <Box sx={{ flexBasis: "70%", marginRight: "2rem" }}>
         Cart Is Working
         {cartItems.map((item) => (
           <CartItem item={item} key={item.id} />
         ))}
-      </div>
-      <OrderSummary subtotal={subtotal} />
+      </Box>
+      <Box
+        sx={{
+          flexBasis: "30%"
+        }}
+      >
+        <OrderSummary subtotal={subtotal} />
+      </Box>
     </Box>
   );
 };
