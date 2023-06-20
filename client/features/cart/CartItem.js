@@ -10,17 +10,23 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { removeCartItem } from "./cartItemSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { removeCartItem, fetchCartItems} from "./cartItemSlice";
 
 const CartItem = ({ item }) => {
+  const auth = useSelector((state) => state.auth);
+  const userId = auth.me ? auth.me.id : null;
   const dispatch = useDispatch();
-  // console.log("this is item ----->", item);
   const [quantity, setQuantity] = useState(item.quantity);
 
   const handleRemoveClick = () => {
-    dispatch(removeCartItem(item.id));
-  };
+    console.log('this is item product ID ----->', item.product.id);  //
+    dispatch(removeCartItem({userId: userId, productId: item.product.id}))
+    .unwrap()
+    .then(({ userId }) => {
+      dispatch(fetchCartItems(userId)); // fetch updated cart items
+    });
+};
 
   const handleChange = (event) => {
     setQuantity(event.target.value);

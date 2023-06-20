@@ -14,13 +14,15 @@ export const fetchCartItems = createAsyncThunk(
 );
 
 export const removeCartItem = createAsyncThunk(
-  'cartitem/removeCartitem',
-  async (itemId, {rejectWithValue}) => {
+  "cartItems/removeCartItem",
+  async ({userId, productId}) => {
     try {
-      await axios.delete(`/api/cartItems/${itemId}`)
-      return itemId;
+      const response = await axios.delete(
+        `/api/cartItems/${userId}/${productId}`
+      );
+      return {data: response.data, userId};;
     } catch (error) {
-      return rejectWithValue(error.message);
+      throw Error("Failed to delete cartItem");
     }
   }
 );
@@ -47,14 +49,17 @@ export const cartItemSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       });
-      builder.addCase(removeCartItem.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.cartItem = state.carItem.filter(item => item.id !== action.payload);
-      });
-      builder.addCase(removeCartItem.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
-      });
+    builder.addCase(removeCartItem.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.userId = action.payload.userId; // store userId from the response
+      state.cartItem = state.cartItem.filter(
+        (item) => item.id !== action.payload
+      );
+    });
+    builder.addCase(removeCartItem.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.payload;
+    });
   },
 });
 
