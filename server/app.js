@@ -13,7 +13,16 @@ app.use(express.json())
 
 // auth and api routes
 app.use('/auth', require('./auth'))
+
+// for testing
+app.use((req, res, next) => {
+  console.log(`Received a ${req.method} request on ${req.path}`);
+  next();
+});
+
 app.use('/api', require('./api'))
+// cart routes
+app.use('/cart', require('./api/cartItems'));
 
 app.get('/', (req, res)=> res.sendFile(path.join(__dirname, '..', 'public/index.html')));
 
