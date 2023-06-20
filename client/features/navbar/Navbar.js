@@ -132,7 +132,9 @@ const Navbar = () => {
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            <ShoppingCartIcon />
+            <Link to='/cart'>
+            <ShoppingCartIcon sx={{ color: "white" }} />
+            </Link>
           </IconButton>
           <nav id="login-nav">
             {isLoggedIn ? (
