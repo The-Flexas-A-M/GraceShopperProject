@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const { RequestQuoteRounded } = require("@mui/icons-material");
 const {
   models: { CartItem, User, Product },
 } = require("../db");
@@ -65,7 +64,7 @@ router.put('/:userId/:productId', async (req, res, next) => {
       },
     });
     if (item) {
-      item.quantity -= quantity;
+      item.quantity = quantity;
 
       if (item.quantity <= 0) {
         await item.destroy();
@@ -73,7 +72,7 @@ router.put('/:userId/:productId', async (req, res, next) => {
         await item.save();
       }
 
-      res.status(200).send('item updated');
+      res.json(item);
     } else {
       res.status(404).send('item not found');
     }

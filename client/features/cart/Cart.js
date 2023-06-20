@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCartItems } from "./cartItemSlice";
+import cartItemSlice, { fetchCartItems } from "./cartItemSlice";
 import CartItem from "./CartItem";
 import { Box } from "@mui/material";
 import OrderSummary from "./OrderSummary";
@@ -13,15 +13,13 @@ const Cart = () => {
   const cartStatus = useSelector((state) => state.cartItem.status);
   const error = useSelector((state) => state.cartItem.error);
 
-  // console.log("this is auth----->", auth); // test
-  // console.log("this is user id---->", userId); // test
-  // console.log("this is carItems---->", cartItems); // test
+  const subtotal = useMemo(() => {
+    return cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+  }, [cartItems]);
 
   useEffect(() => {
     if (userId) {
-      dispatch(fetchCartItems(userId)).then((resultAction) => {
-        // console.log("fetchCartItems result---->", resultAction.payload);
-      });
+      dispatch(fetchCartItems(userId));
     }
   }, [userId, dispatch]);
 
@@ -49,7 +47,7 @@ const Cart = () => {
           <CartItem item={item} key={item.id} />
         ))}
       </div>
-      <OrderSummary />
+      <OrderSummary subtotal={subtotal} />
     </Box>
   );
 };
