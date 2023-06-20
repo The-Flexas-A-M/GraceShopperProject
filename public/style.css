@@ -78,6 +78,10 @@ form div {
   background-color: lightgrey;
 }
 
+.drawer-paper {
+  width: 25%;
+}
+
 #signin-form {
   border: 1px solid lightgrey;
   display: flex;

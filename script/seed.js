@@ -126,42 +126,42 @@ async function seed() {
     CartItem.create({
       userId: 2,
       productId:1,
-      quantity:1
+      quantity:3
     }),
     CartItem.create({
       userId: 2,
       productId: 2,
-      quantity:1
+      quantity:3
     }),
     CartItem.create({
       userId: 2,
       productId:3,
-      quantity:1
+      quantity:3
     }),
     CartItem.create({
       userId: 2,
       productId:4,
-      quantity:1
+      quantity:3
     }),
     CartItem.create({
       userId: 3,
       productId:5,
-      quantity:1
+      quantity:3
     }),
     CartItem.create({
       userId: 3,
       productId:6,
-      quantity:1
+      quantity:3
     }),
     CartItem.create({
       userId: 3,
       productId:7,
-      quantity:1
+      quantity:3
     }),
     CartItem.create({
       userId: 3,
       productId:8,
-      quantity:1
+      quantity:3
     }),
   ])
 
