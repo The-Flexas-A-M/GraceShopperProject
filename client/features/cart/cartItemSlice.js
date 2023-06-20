@@ -17,7 +17,7 @@ export const removeCartItem = createAsyncThunk(
   'cartitem/removeCartitem',
   async (itemId, {rejectWithValue}) => {
     try {
-      await axios.delete(`/api/carItems/${itemId}`)
+      await axios.delete(`/api/cartItems/${itemId}`)
       return itemId;
     } catch (error) {
       return rejectWithValue(error.message);

@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { RequestQuoteRounded } = require("@mui/icons-material");
 const {
   models: { CartItem, User, Product },
 } = require("../db");
@@ -29,6 +30,26 @@ router.get("/:userId", async (req, res, next) => {
 router.delete("/:userId/:productId", async (req, res, next) => {
   try {
     const { userId, productId } = req.params;
+    const deletedCount = await CartItem.destroy({
+      where: {
+        userId: userId,
+        productId: productId,
+      },
+    });
+    if (deletedCount > 0) {
+      res.status(204).send("items deleted");
+    } else {
+      res.status(404).send("Item not found");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+router.put('/:userId/:productId', async (req, res, next) => {
+  try {
+    const { userId, productId } = req.params;
+    const { quantity } = req.body
+
     const item = await CartItem.findOne({
       where: {
         userId: userId,
@@ -36,13 +57,20 @@ router.delete("/:userId/:productId", async (req, res, next) => {
       },
     });
     if (item) {
-      await item.destroy();
-      res.status(204).send("item deleted");
+      item.quantity -= quantity;
+
+      if (item.quantity <= 0) {
+        await item.destroy();
+      } else {
+        await item.save();
+      }
+
+      res.status(200).send('item updated');
     } else {
-      res.status(404).send("Item not found");
+      res.status(404).send('item not found');
     }
   } catch (error) {
-    next(error);
+    next(error)
   }
 });
 
