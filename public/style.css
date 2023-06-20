@@ -154,3 +154,7 @@ span {
     /* height: 50vh; */
   }
 }
+
+#logo{
+  color: white !important;
+}

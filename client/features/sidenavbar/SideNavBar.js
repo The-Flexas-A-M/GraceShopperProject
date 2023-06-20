@@ -10,14 +10,14 @@ import { Link } from "react-router-dom";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-const SideNavBar = () => {
+const SideNavBar = ({setShowSideBar}) => {
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
   };
   return (
-    <>
+    <><div >
       <List
         sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
         component="nav"
@@ -32,7 +32,9 @@ const SideNavBar = () => {
       >
         <ListItemButton>
           <Link to="/allproducts">
+            <span onClick={()=> setShowSideBar(false)}>
             <ListItemText primary="All Products" />
+            </span>
           </Link>
         </ListItemButton>
 
@@ -45,27 +47,38 @@ const SideNavBar = () => {
           <List component="div" disablePadding>
             <ListItemButton sx={{ pl: 4 }}>
               <Link to="/genre/rpg">
+                <span onClick={()=> setShowSideBar(false)}>
                 <ListItemText primary="RPG" />
+                </span>
               </Link>
             </ListItemButton>
             <ListItemButton sx={{ pl: 4 }}>
               <Link to="/genre/fighting">
+                <span onClick={()=> setShowSideBar(false)}>
                 <ListItemText primary="Fighting" />
+                </span>
               </Link>
             </ListItemButton>
             <ListItemButton sx={{ pl: 4 }}>
               <Link to="/genre/action">
+                <span onClick={()=> setShowSideBar(false)}>
                 <ListItemText primary="Action" />
+                </span>
               </Link>
             </ListItemButton>
             <ListItemButton sx={{ pl: 4 }}>
+            <span onClick={()=> setShowSideBar(false)}>
               <Link to="/genre/sports">
+                
                 <ListItemText primary="Sports" />
+                
               </Link>
+              </span>
             </ListItemButton>
           </List>
         </Collapse>
       </List>
+      </div>
     </>
   );
 };
