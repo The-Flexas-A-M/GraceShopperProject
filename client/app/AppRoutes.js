@@ -1,20 +1,22 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Route, Routes } from "react-router-dom";
-import AuthForm from "../features/auth/AuthForm";
-import Home from "../features/home/Home";
-import Cart from "../features/cart/Cart";
-import { me } from "./store";
-import AllProducts from "../features/Allproducts/AllProducts";
-import SingleProduct from "../features/SingleProduct/SingleProduct";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
+import AuthForm from '../features/auth/AuthForm';
+import Home from '../features/home/Home';
+import { me } from './store';
+import AllProducts from '../features/Allproducts/AllProducts';
+import SingleProduct from '../features/SingleProduct/SingleProduct';
+import ShopByGenre from '../features/ShopByGenre/ShopByGenre';
+import Cart from "../features/cart/Cart"
 
 /**
  * COMPONENT
  */
 
-const AppRoutes = () => {
+const AppRoutes = ({searchString, setSearchString}) => {
   const isLoggedIn = useSelector((state) => !!state.auth.me.id);
   const dispatch = useDispatch();
+  
 
   useEffect(() => {
     dispatch(me());
@@ -22,18 +24,23 @@ const AppRoutes = () => {
 
   return (
     <div>
-      {isLoggedIn ? (
+
+
+  
         <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/allproducts" element={<AllProducts />} />
-          <Route path="/products/:id" element={<SingleProduct />} />
-          <Route path="/cart" element={<Cart />} />
+            
+          <Route path="/allproducts" element={<AllProducts searchString={searchString} setSearchString={setSearchString}/>}/>
+          <Route path="/products/:id" element={<SingleProduct/>}/>
          
-        </Routes>
-      ) : (
-        <Routes>
           <Route path="/home" element={<Home />} />
-          <Route
+          <Route path="/genre/:genre" element={<ShopByGenre searchString={searchString} setSearchString={setSearchString}/>}/>
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/*" element={<Home />} />
+       
+      {!isLoggedIn &&(
+        
+         
+          <><Route
             path="/login"
             element={<AuthForm name="login" displayName="Login" />}
           />
@@ -41,11 +48,14 @@ const AppRoutes = () => {
             path="/signup"
             element={<AuthForm name="signup" displayName="Sign Up" />}
           />
-          <Route path="/cart" element={<Cart />} />
+          </>
+          
 
-          <Route path="/*" element={<Home />} />
-        </Routes>
+         
+        
       )}
+       </Routes>
+     
     </div>
   );
 };
