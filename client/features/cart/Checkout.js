@@ -26,9 +26,6 @@ const subtotal = useMemo(() => {
   }, [cartItems]);
 
 
-useEffect(() => {
-    console.log("user", user)
-  }, [user])
 
   useEffect(() => {
     if (userId) {
