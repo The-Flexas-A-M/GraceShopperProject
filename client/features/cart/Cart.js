@@ -19,6 +19,7 @@ const Cart = () => {
       0
     );
   }, [cartItems]);
+console.log("cart", cartItems)
 
   useEffect(() => {
     if (userId) {
