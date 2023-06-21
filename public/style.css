@@ -153,4 +153,81 @@ span {
     width: 30vw;
     /* height: 50vh; */
   }
+
+  .carousel {
+    overflow: hidden;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: maroon;
+    /* padding: 1em; */
+    margin: 1em auto;
+    border-radius: 0.5em;
+  }
+
+  .carousel-img {
+    width: 95%;
+    margin: auto;
+    padding: 1em;
+  }
+
+  .inner {
+    white-space: nowrap;
+    transition: transform 0.3s;
+    box-shadow: 0 5 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .carousel-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 80%;
+  }
+
+  .carousel-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    background: white;
+    width: 95%;
+    padding: 0.5em;
+    margin: auto;
+    margin-bottom: 1em;
+    border-radius: 0.5em;
+  }
+
+  .button-arrow {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .indicators {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .indicator-buttons {
+    border: none;
+    cursor: pointer;
+  }
+
+  .indicators > button {
+    margin: 5px;
+    background: none;
+  }
+
+  .material-symbols-outlined {
+    color: black;
+  }
+
+  .indicator-symbol {
+    color: black;
+  }
+
+  .indicator-symbol-active {
+    color: maroon;
+  }
+
 }

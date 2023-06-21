@@ -5,6 +5,15 @@ const { User } = require('../db');
 
 router.use('/', requireToken, isAdmin);
 
+router.get('/users', requireToken, isAdmin, async (req, res, next) => {
+    try {
+        let users = await User.findAll();
+        res.send(users);
+    } catch (error) {
+        next(error);
+    }
+})
+
 router.post('/add', requireToken, isAdmin, async (req, res, next) => {
     try {
         let { data } = req.body;
