@@ -3,26 +3,37 @@ import React, { useState, useEffect } from "react";
 // import { addToCart } from "../cartItemSlice";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, fetchCartItems} from "../cart/cartItemSlice";
+import { addToCart, fetchCartItems, updateCartItem} from "../cart/cartItemSlice";
 
 
 
 function Product({product}){
     const auth = useSelector((state) => state.auth);
+    const { cartItem } = useSelector((state) => state.cartItem)
     const userId = auth.me ? auth.me.id : null;
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log("userID", userId)
-      }, [userId])
+        console.log("cartItem", cartItem)
+      }, [cartItem])
 
     const handleAddClick=() => {
-        console.log("productID", product.id)
-        dispatch(addToCart({userId: userId, productId: product.id}))
-    .unwrap()
-    .then(({ userId }) => {
-      dispatch(fetchCartItems(userId)); // fetch updated cart items
-    });
+        const itemExists = cartItem.find((item) => item.productId === product.id)
+        console.log("product handle click", itemExists)
+        console.log("product handle click cart item", cartItem)
+        if (itemExists) {
+            dispatch(updateCartItem({userId: userId, productId: product.id, quantity: itemExists.quantity + 1}))
+        .unwrap()
+        .then(({ userId }) => {
+          dispatch(fetchCartItems(userId)); // fetch updated cart items
+        });
+        }else{
+            dispatch(addToCart({userId: userId, productId: product.id}))
+        .unwrap()
+        .then(({ userId }) => {
+          dispatch(fetchCartItems(userId)); // fetch updated cart items
+        });
+        }
     }
 return <div className="product">
     <Link to={"/products/"+product.id}>

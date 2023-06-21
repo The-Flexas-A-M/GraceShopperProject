@@ -1,5 +1,7 @@
 import React from "react";
 import { Box, Card, CardContent, Typography, Button } from "@mui/material";
+import { Link } from "react-router-dom";
+
 
 const OrderSummary = ({ subtotal }) => {
   console.log("this is subtotal---->", subtotal); // Add this line in OrderSummary component
@@ -33,6 +35,7 @@ const OrderSummary = ({ subtotal }) => {
           <Typography variant="body1" style={{ marginTop: "1rem" }}>
             Estimated Total: ${subtotal.toFixed(2)}
           </Typography>
+          <Link to = {"/checkout"}>
           <Button
             variant="contained"
             color="primary"
@@ -42,6 +45,7 @@ const OrderSummary = ({ subtotal }) => {
           >
             Checkout
           </Button>
+          </Link>
         </CardContent>
       </Card>
     </Box>
