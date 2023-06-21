@@ -1,6 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+export const addToCart = createAsyncThunk(
+  "cartItems/addToCart",
+  async ({userId, productId}) => {
+    try {
+      const response = await axios.post(`/api/cartItems/${userId}`, { productId, userId });
+      return response.data;
+    } catch (error) {
+      throw Error("Failed to add item to cart");
+    }
+  }
+);
+
+
 export const fetchCartItems = createAsyncThunk(
   "cartitem/fetchCartItems",
   async (userId) => {
@@ -37,7 +50,15 @@ export const cartItemSlice = createSlice({
   name: "cartItem",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
+  extraReducers: (builder) => {  
+    builder.addCase(addToCart.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.cartItem = [...state.cartItem, action.payload];
+    });
+    builder.addCase(addToCart.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.payload;
+    });
     builder.addCase(fetchCartItems.pending, (state) => {
       state.status = "loading";
     }),

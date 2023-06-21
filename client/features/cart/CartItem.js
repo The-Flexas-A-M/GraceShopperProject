@@ -9,7 +9,7 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeCartItem, fetchCartItems} from "./cartItemSlice";
 
@@ -19,6 +19,8 @@ const CartItem = ({ item }) => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(item.quantity);
 
+
+  
   const handleRemoveClick = () => {
     console.log('this is item product ID ----->', item.product.id);  //
     dispatch(removeCartItem({userId: userId, productId: item.product.id}))

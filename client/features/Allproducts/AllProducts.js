@@ -11,7 +11,7 @@ export default function AllProducts ({searchString, setSearchString}) {
     return (
 
         <div className="products">
-            {products.map(product => <Product product={product}/>)}
+            {products.map(product => <Product key={product.name} product={product}/>)}
         </div>
 
 
