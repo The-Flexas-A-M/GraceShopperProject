@@ -13,17 +13,37 @@ function Product({product}){
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log("userID", userId)
+        // console.log("userID", userId)
       }, [userId])
 
     const handleAddClick=() => {
-        console.log("productID", product.id)
+        if (userId) {
+        // console.log("productID", product.id)
         dispatch(addToCart({userId: userId, productId: product.id}))
     .unwrap()
     .then(({ userId }) => {
       dispatch(fetchCartItems(userId)); // fetch updated cart items
     });
+} else {
+    // handle guest user
+    console.log("Guest user pathway activated");
+
+    let cart = JSON.parse(localStorage.getItem("guestCart"));
+    const existingProduct = cart.find((item) => item.id === product.id);
+    if (existingProduct) {
+      existingProduct.quantity += 1;
+      console.log("Increased quantity for existing product");
+
+    } else {
+      cart.push({ ...product, quantity: 1 });
+      console.log("Added new product to cart");
+
     }
+    localStorage.setItem("guestCart", JSON.stringify(cart));
+    console.log("Cart after adding product:", JSON.parse(localStorage.getItem("guestCart")));
+  }
+}
+
 return <div className="product">
     <Link to={"/products/"+product.id}>
     <div className="product-image">
