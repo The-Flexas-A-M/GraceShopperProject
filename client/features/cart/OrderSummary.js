@@ -1,7 +1,22 @@
 import React from "react";
 import { Box, Card, CardContent, Typography, Button } from "@mui/material";
+import {clearCart} from './cartItemSlice';
+import { clearGuestCart } from "./guesCartSlice";
+
 
 const OrderSummary = ({ subtotal }) => {
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state) => state.auth.me ? true : false);
+
+  const handleCheckout = () => {
+    if (isAuth) {
+      dispatch(clearCart());
+    } else {
+      dispatch(clearGuestCart());
+    }
+    // Here you can also handle the process of order creation
+    // then redirect user to a success page or do something else
+  };
   console.log("this is subtotal---->", subtotal); // Add this line in OrderSummary component
   return (
     <Box
@@ -39,6 +54,7 @@ const OrderSummary = ({ subtotal }) => {
             size="large"
             style={{ marginTop: "20px" }}
             disabled={subtotal <= 0} // Disable button if there's nothing in the cart
+            onClick={handleCheckout}
           >
             Checkout
           </Button>

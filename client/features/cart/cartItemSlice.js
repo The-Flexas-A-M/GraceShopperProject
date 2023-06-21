@@ -64,11 +64,7 @@ const initialState = {
 export const cartItemSlice = createSlice({
   name: "cartItem",
   initialState,
-  reducers: {
-    clearCart: (state) => {
-      state.cartItem = []
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {  
     builder.addCase(addToCart.fulfilled, (state, action) => {
       state.status = "succeeded";
@@ -108,6 +104,17 @@ export const cartItemSlice = createSlice({
       }
     });
     builder.addCase(updateCartItem.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.error.message;
+    });
+    builder.addCase(clearCart.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(clearCart.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.cartItem = [];
+    });
+    builder.addCase(clearCart.rejected, (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
     });
