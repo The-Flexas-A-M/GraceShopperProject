@@ -19,7 +19,11 @@ const App = () => {
       dispatch(getProducts())
   }, [])
 
-
+  useEffect(() => {
+    if (!localStorage.getItem("guestCart")) {
+      localStorage.setItem("guestCart", JSON.stringify([]));
+    }
+  }, []);
 
 
 
