@@ -55,6 +55,18 @@ export const updateCartItem = createAsyncThunk(
   }
 )
 
+export const clearCart = createAsyncThunk(
+  "cartItems/clearCart",
+  async (userId) => {
+    try {
+      const response = await axios.delete(`/api/cartItems/${userId}`);
+      return userId;
+    } catch (error) {
+      throw Error("Failed to clear cart");
+    }
+  }
+);
+
 const initialState = {
   cartItem: [],
   status: "idle",
