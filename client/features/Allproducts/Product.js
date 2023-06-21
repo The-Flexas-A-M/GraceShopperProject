@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, fetchCartItems} from "../cart/cartItemSlice";
+import { addToGuestCart } from "../cart/guesCartSlice";
 
 
 
@@ -25,22 +26,7 @@ function Product({product}){
       dispatch(fetchCartItems(userId)); // fetch updated cart items
     });
 } else {
-    // handle guest user
-    console.log("Guest user pathway activated");
-
-    let cart = JSON.parse(localStorage.getItem("guestCart"));
-    const existingProduct = cart.find((item) => item.id === product.id);
-    if (existingProduct) {
-      existingProduct.quantity += 1;
-      console.log("Increased quantity for existing product");
-
-    } else {
-      cart.push({ ...product, quantity: 1 });
-      console.log("Added new product to cart");
-
-    }
-    localStorage.setItem("guestCart", JSON.stringify(cart));
-    console.log("Cart after adding product:", JSON.parse(localStorage.getItem("guestCart")));
+    dispatch(addToGuestCart(product));
   }
 }
 
