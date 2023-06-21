@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Box, Card, CardContent, Typography, Button } from "@mui/material";
 import { clearCart } from "./cartItemSlice";
 import { clearGuestCart } from "./guesCartSlice";

@@ -7,6 +7,7 @@ import { getProducts } from "../features/Allproducts/productSlice";
 
 
 
+
 const App = () => {
   const [showSideBar, setShowSideBar] = useState(false);
   const [searchString, setSearchString]= useState("")
