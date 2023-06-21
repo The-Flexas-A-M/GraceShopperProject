@@ -48,7 +48,7 @@ console.log("cart", cartItems)
       <Box sx={{ flexBasis: "70%", marginRight: "2rem" }}>
         Cart Is Working
         {cartItems.map((item) => (
-          <CartItem item={item} key={item.id} />
+          <CartItem checkout={false} item={item} key={item.id} />
         ))}
       </Box>
       <Box
@@ -56,7 +56,7 @@ console.log("cart", cartItems)
           flexBasis: "30%"
         }}
       >
-        <OrderSummary subtotal={subtotal} />
+        <OrderSummary checkout={false} subtotal={subtotal} />
       </Box>
     </Box>
   );
