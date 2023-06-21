@@ -1,5 +1,4 @@
 const router = require('express').Router()
-const { requireToken } = require('../auth/gatekeeper')
 const { models: { User }} = require('../db')
 
 router.get('/', async (req, res, next) => {
@@ -15,7 +14,7 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
-router.post('/', requireToken, async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     console.log('Request Payload:', req.body); // Log the request payload
 
@@ -32,7 +31,7 @@ router.post('/', requireToken, async (req, res, next) => {
 });
 
 // DELETE /api/users/:userId
-router.delete('/:userId', requireToken, async (req, res, next) => {
+router.delete('/:userId', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId);
     await user.destroy();
@@ -43,7 +42,7 @@ router.delete('/:userId', requireToken, async (req, res, next) => {
 });
 
 // PUT /api/users/:userId
-router.put('/:userId', requireToken, async (req, res, next) => {
+router.put('/:userId', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId);
 

@@ -1,19 +1,17 @@
 import React, {useEffect} from "react";
 import Product from "./Product";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "./productSlice";
+import search from "../search"
 
 
-export default function AllProducts () {
-    const products = useSelector(state => state.products)
-    const dispatch = useDispatch()
-    useEffect(()=>{
-        dispatch(getProducts())
-    }, [])
+
+export default function AllProducts ({searchString, setSearchString}) {
+    const products = search(searchString, useSelector(state => state.products))
+   
     return (
 
         <div className="products">
-            {products.map(product => <Product product={product}/>)}
+            {products.map(product => <Product key={product.name} product={product}/>)}
         </div>
 
 

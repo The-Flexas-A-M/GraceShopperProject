@@ -144,6 +144,10 @@ span {
   color: maroon;
 }
 
+#logo{
+  color: white !important;
+}
+
 @media screen and (min-width: 600px) {
   .search {
     display: flex;
@@ -229,5 +233,3 @@ span {
   .indicator-symbol-active {
     color: maroon;
   }
-
-}

@@ -9,9 +9,9 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { removeCartItem, fetchCartItems} from "./cartItemSlice";
+import { removeCartItem, fetchCartItems, updateCartItem} from "./cartItemSlice";
 
 const CartItem = ({ item }) => {
   const auth = useSelector((state) => state.auth);
@@ -19,6 +19,8 @@ const CartItem = ({ item }) => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(item.quantity);
 
+
+  
   const handleRemoveClick = () => {
     console.log('this is item product ID ----->', item.product.id);  //
     dispatch(removeCartItem({userId: userId, productId: item.product.id}))
@@ -30,7 +32,11 @@ const CartItem = ({ item }) => {
 
   const handleChange = (event) => {
     setQuantity(event.target.value);
-    // TODO: Dispatch action to update quantity in the cart
+    dispatch(updateCartItem({ userId, productId: item.product.id, quantity: event.target.value}))
+    .unwrap()
+    .then(({ userId }) => {
+      dispatch(fetchCartItems(userId)); // fetch updated cart items
+    });
   };
 
   return (

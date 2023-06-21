@@ -1,6 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+export const addToCart = createAsyncThunk(
+  "cartItems/addToCart",
+  async ({userId, productId}) => {
+    try {
+      const response = await axios.post(`/api/cartItems/${userId}`, { productId, userId });
+      return response.data;
+    } catch (error) {
+      throw Error("Failed to add item to cart");
+    }
+  }
+);
+
+
 export const fetchCartItems = createAsyncThunk(
   "cartitem/fetchCartItems",
   async (userId) => {
@@ -27,6 +40,21 @@ export const removeCartItem = createAsyncThunk(
   }
 );
 
+export const updateCartItem = createAsyncThunk(
+  'cartItems/updateCartItem',
+  async ({userId, productId, quantity}) => {
+    try {
+      const response = await axios.put(
+        `api/cartItems/${userId}/${productId}`,
+        {quantity}
+      );
+      return {data: response.data, userId };
+    } catch (error) {
+      throw Error("Failed to update carItem")
+    }
+  }
+)
+
 const initialState = {
   cartItem: [],
   status: "idle",
@@ -37,7 +65,15 @@ export const cartItemSlice = createSlice({
   name: "cartItem",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
+  extraReducers: (builder) => {  
+    builder.addCase(addToCart.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.cartItem = [...state.cartItem, action.payload];
+    });
+    builder.addCase(addToCart.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.payload;
+    });
     builder.addCase(fetchCartItems.pending, (state) => {
       state.status = "loading";
     }),
@@ -59,6 +95,17 @@ export const cartItemSlice = createSlice({
     builder.addCase(removeCartItem.rejected, (state, action) => {
       state.status = "failed";
       state.error = action.payload;
+    });
+    builder.addCase(updateCartItem.fulfilled, (state,action) => {
+      state.status = "succeeded";
+      const index = state.cartItem.findIndex((item) => item.id === action.payload);
+      if (index !== -1 ) {
+        state.cartItem[index] = action.payload
+      }
+    });
+    builder.addCase(updateCartItem.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.error.message;
     });
   },
 });
