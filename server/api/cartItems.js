@@ -5,7 +5,7 @@ const {
 
 // Route to serve CartItems
 router.get("/:userId", async (req, res, next) => {
-  console.log("Endpoint /cartItems/:userId hit"); // test 
+  console.log("Endpoint /api/cartItems/:userId hit"); // test 
   try {
     const userId = req.params.userId;
     const user = await User.findByPk(userId);
@@ -44,6 +44,14 @@ router.delete("/:userId/:productId", async (req, res, next) => {
     next(error);
   }
 });
+router.post("/:userId", async (req, res) =>{
+  console.log("addToCart", req.body.userId)
+  const newCartItem = await CartItem.create({
+    productId: req.body.productId, 
+    userId: req.body.userId
+  })
+})
+
 router.put('/:userId/:productId', async (req, res, next) => {
   try {
     const { userId, productId } = req.params;

@@ -1,8 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+// import { useDispatch } from "react-redux";
+// import { addToCart } from "../cartItemSlice";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, fetchCartItems} from "../cart/cartItemSlice";
+
 
 
 function Product({product}){
+    const auth = useSelector((state) => state.auth);
+    const userId = auth.me ? auth.me.id : null;
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        console.log("userID", userId)
+      }, [userId])
+
+    const handleAddClick=() => {
+        console.log("productID", product.id)
+        dispatch(addToCart({userId: userId, productId: product.id}))
+    .unwrap()
+    .then(({ userId }) => {
+      dispatch(fetchCartItems(userId)); // fetch updated cart items
+    });
+    }
 return <div className="product">
     <Link to={"/products/"+product.id}>
     <div className="product-image">
@@ -14,11 +35,12 @@ return <div className="product">
         <p className="product-genre">Genre:{product.genre}</p>
        <div className="product-buy">
        <p className="product-price">${product.price}</p>
-       <button className="add-to-cart">Add to Cart</button>
        </div>
     </div>
     </Link>
+       <button className="add-to-cart" onClick={handleAddClick}>Add to Cart</button>
 </div>
 }
 
 export default Product
+
