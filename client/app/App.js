@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux"
 import { getProducts } from "../features/Allproducts/productSlice";
 
 
+
 const App = () => {
   const [showSideBar, setShowSideBar] = useState(false);
   const [searchString, setSearchString]= useState("")
@@ -17,6 +18,7 @@ const App = () => {
   const dispatch = useDispatch()
   useEffect(()=>{
       dispatch(getProducts())
+      dispatch(loadGuestCart())
   }, [])
 
   useEffect(() => {

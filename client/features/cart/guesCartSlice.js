@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 
 const initialState = JSON.parse(localStorage.getItem("guestCart")) || [];
 
@@ -35,7 +36,11 @@ export const guestCartSlice = createSlice({
   },
 });
 
+
 export const { addToGuestCart, removeFromGuestCart, clearGuestCart } =
   guestCartSlice.actions;
+
+  export const selectGuestCart = (state) => state.guestCart;
+
 
 export default guestCartSlice.reducer;

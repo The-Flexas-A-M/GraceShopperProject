@@ -4,14 +4,15 @@ import cartItemSlice, { fetchCartItems } from "./cartItemSlice";
 import CartItem from "./CartItem";
 import { Box } from "@mui/material";
 import OrderSummary from "./OrderSummary";
+import { selectGuestCart } from "./guesCartSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const userId = auth.me ? auth.me.id : null;
-  const cartItems = useSelector((state) => state.cartItem.cartItem);
-  const cartStatus = useSelector((state) => state.cartItem.status);
+  const cartItems = useSelector((state) => state.auth.me ? state.cartItem.cartItem : selectGuestCart(state));
   const error = useSelector((state) => state.cartItem.error);
+  const guestCartItems = useSelector(selectGuestCart);
 
   const subtotal = useMemo(() => {
     return cartItems.reduce(
