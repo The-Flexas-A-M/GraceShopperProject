@@ -64,7 +64,11 @@ const initialState = {
 export const cartItemSlice = createSlice({
   name: "cartItem",
   initialState,
-  reducers: {},
+  reducers: {
+    clearCart: (state) => {
+      state.cartItem = []
+    }
+  },
   extraReducers: (builder) => {  
     builder.addCase(addToCart.fulfilled, (state, action) => {
       state.status = "succeeded";
