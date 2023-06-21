@@ -19,7 +19,6 @@ const App = () => {
   const dispatch = useDispatch()
   useEffect(()=>{
       dispatch(getProducts())
-      dispatch(loadGuestCart())
   }, [])
 
   useEffect(() => {
