@@ -8,9 +8,7 @@ export const guestCartSlice = createSlice({
   initialState,
   reducers: {
     addToGuestCart: (state, action) => {
-      const existingProduct = state.find(
-        (item) => item.id === action.payload.id
-      );
+      const existingProduct = state.find((item) => item.id === action.payload.id);
       if (existingProduct) {
         existingProduct.quantity += 1;
       } else {
