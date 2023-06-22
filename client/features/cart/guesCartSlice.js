@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
 
 const initialState = JSON.parse(localStorage.getItem("guestCart")) || [];
 
@@ -27,6 +26,10 @@ export const guestCartSlice = createSlice({
       }
       localStorage.setItem("guestCart", JSON.stringify(state));
     },
+    setGuestCartItems: (state, action) => {
+      state.length = 0;
+      state.push(...action.payload);
+  },
     clearGuestCart: (state) => {
       state = [];
       localStorage.setItem("guestCart", JSON.stringify(state));
@@ -35,8 +38,12 @@ export const guestCartSlice = createSlice({
 });
 
 
-export const { addToGuestCart, removeFromGuestCart, clearGuestCart } =
-  guestCartSlice.actions;
+export const {
+  addToGuestCart,
+  removeFromGuestCart,
+  setGuestCartItems,
+  clearGuestCart,
+} = guestCartSlice.actions;
 
   export const selectGuestCart = (state) => state.guestCart;
 

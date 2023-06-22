@@ -1,65 +1,102 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, fetchCartItems, updateCartItem} from "../cart/cartItemSlice";
+import {
+  addToCart,
+  fetchCartItems,
+  updateCartItem,
+} from "../cart/cartItemSlice";
+import { selectGuestCart, setGuestCartItems } from "./guesCartSlice";
 import { Box, Card, CardContent, Typography, Button } from "@mui/material";
 import CartItem from "./CartItem";
 import OrderSummary from "./OrderSummary";
 
-
-
-
 const Checkout = () => {
-const auth = useSelector((state) => state.auth);
-const user = useSelector((state) => state.auth.me);
+  const auth = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.me);
 
   const userId = auth.me ? auth.me.id : null;
+  console.log("userId:---->", userId);
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cartItem.cartItem);
+  console.log("cartItems:---->", cartItems);
+  const guestCartItems = useSelector(selectGuestCart);
+  console.log("guestCartItems:---->", guestCartItems);
   const cartStatus = useSelector((state) => state.cartItem.status);
   const error = useSelector((state) => state.cartItem.error);
-//   const [quantity, setQuantity] = useState(item.quantity);
-const subtotal = useMemo(() => {
-    return cartItems.reduce(
-      (acc, item) => acc + item.product.price * item.quantity,
-      0
-    );
-  }, [cartItems]);
-
-
-
+  // Determine which items to display
+  const displayItems = userId ? cartItems : guestCartItems;
+  if (!displayItems || displayItems.length === 0) {
+    return <div>Loading...</div>;
+  }
+  console.log("displayItems:---->", displayItems);
+  //   const [quantity, setQuantity] = useState(item.quantity);
+  const subtotal = useMemo(() => {
+    return displayItems 
+      ? displayItems.reduce((acc, item) => {
+          console.log('Price:', item.price);
+          console.log('Quantity:', item.quantity);
+          return acc + Number(item.price || 0) * item.quantity;
+      }, 0)
+      : 0;
+  }, [displayItems]);
+  console.log("subtotal:---->", subtotal);
   useEffect(() => {
-    if (userId) {
+    if (user && userId) {
+      // If the user is logged in and userId is defined
       dispatch(fetchCartItems(userId));
+    } else {
+      // If the user is a guest
+      const guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
+      dispatch(setGuestCartItems(guestCart));
     }
-  }, [userId, dispatch]);
+  }, [user, userId, dispatch]);
 
   return (
     <>
-    <Box sx={{display:"flex"}}>
-    <Box sx={{width:"70%"}}>
-        <Box sx={{display:"flex", justifyContent:"space-between", marginTop:"20px", marginLeft:"20px"}}>
+      <Box sx={{ display: "flex" }}>
+        <Box sx={{ width: "70%" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "20px",
+              marginLeft: "20px",
+            }}
+          >
             <div>Shipping Address</div>
             <div>
-            <div>{user.firstname + " " + user.lastname}</div>
-            <div>{user.street}</div>
-            <div>{user.city + ", " + user.state + " " + user.zip}</div>
+              <div>{user.firstname + " " + user.lastname}</div>
+              <div>{user.street}</div>
+              <div>{user.city + ", " + user.state + " " + user.zip}</div>
             </div>
             <Button>Change</Button>
-        </Box>
-        <Box sx={{display:"flex", justifyContent:"space-between", marginTop:"20px", marginLeft:"20px"}}>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "20px",
+              marginLeft: "20px",
+            }}
+          >
             <div>Payment Method</div>
             <Button>Add Payment Method</Button>
+          </Box>
+          <Box sx={{ marginTop: "20px" }}>
+            {displayItems &&
+              displayItems.map((item) => (
+                <CartItem checkout={true} item={item} key={item.id} />
+              ))}
+          </Box>
         </Box>
-        <Box sx={{marginTop:"20px"}}>{cartItems && cartItems.map((item) => (
-          <CartItem checkout={true} item={item} key={item.id} />
-        ))}
+        <Box sx={{ display: "flex", justifyContent: "center", width: "30%" }}>
+          <div>
+            <OrderSummary checkout={true} subtotal={subtotal} />
+          </div>
         </Box>
-    </Box>
-    <Box sx={{display:"flex", justifyContent:"center", width:"30%"}}><div><OrderSummary checkout={true} subtotal={subtotal} />
-</div></Box>
-    </Box>
+      </Box>
     </>
-  )
-}
+  );
+};
 
-export default Checkout
+export default Checkout;

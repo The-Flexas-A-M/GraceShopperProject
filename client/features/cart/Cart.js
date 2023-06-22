@@ -4,7 +4,7 @@ import { fetchCartItems } from "./cartItemSlice";
 import CartItem from "./CartItem";
 import { Box } from "@mui/material";
 import OrderSummary from "./OrderSummary";
-import { selectGuestCart } from "./guesCartSlice";
+import { selectGuestCart, setGuestCartItems} from "./guesCartSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -34,6 +34,11 @@ console.log("cart", cartItems)
   useEffect(() => {
     if (userId) {
       dispatch(fetchCartItems(userId));
+    } else {
+      const guestCart = localStorage.getItem('guestCart');
+      if (guestCart) {
+        dispatch(setGuestCartItems(JSON.parse(guestCart)));
+      }
     }
   }, [userId, dispatch]);
 
