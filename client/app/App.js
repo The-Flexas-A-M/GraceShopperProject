@@ -5,6 +5,7 @@ import AppRoutes from "./AppRoutes";
 import {useDispatch, useSelector} from "react-redux"
 import { getProducts } from "../features/Allproducts/productSlice";
 
+import Footer from "../features/footer/Footer";
 
 
 
@@ -35,6 +36,7 @@ const App = () => {
       <Navbar setSearchString={setSearchString} searchString={searchString} onMenuClick={toggleSideBar} />
       {showSideBar && <SideNavBar  setShowSideBar={setShowSideBar}/>}
       <AppRoutes searchString={searchString} setSearchString={setSearchString}/>
+      <Footer />
     </div>
   );
 };
