@@ -274,5 +274,18 @@ span {
   .indicator-symbol-active {
     color: maroon;
   }
-
 }
+  
+  .product-image img{
+    height: 25rem;
+    margin-right: 15rem;
+  }
+  
+  .single-product{
+    margin-right: 3rem;
+  }
+  
+  .single-product img {
+    height: 25rem;
+  }
+

@@ -3,7 +3,7 @@ import { Box, Card, CardContent, Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
 
-const OrderSummary = ({ subtotal }) => {
+const OrderSummary = ({ subtotal, checkout }) => {
   console.log("this is subtotal---->", subtotal); // Add this line in OrderSummary component
   return (
     <Box
@@ -35,7 +35,7 @@ const OrderSummary = ({ subtotal }) => {
           <Typography variant="body1" style={{ marginTop: "1rem" }}>
             Estimated Total: ${subtotal.toFixed(2)}
           </Typography>
-          <Link to = {"/checkout"}>
+          <Link to = {checkout ? "/complete" : "/checkout"}>
           <Button
             variant="contained"
             color="primary"
@@ -43,7 +43,7 @@ const OrderSummary = ({ subtotal }) => {
             style={{ marginTop: "20px" }}
             disabled={subtotal <= 0} // Disable button if there's nothing in the cart
           >
-            Checkout
+            {checkout ? "Place Order" :"Checkout"}
           </Button>
           </Link>
         </CardContent>
