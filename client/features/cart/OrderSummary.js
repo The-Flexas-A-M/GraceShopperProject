@@ -1,10 +1,9 @@
 import React from "react";
 import { Box, Card, CardContent, Typography, Button } from "@mui/material";
+
 import { Link } from "react-router-dom";
 
-
 const OrderSummary = ({ subtotal, checkout }) => {
-  console.log("this is subtotal---->", subtotal); // Add this line in OrderSummary component
   return (
     <Box
       sx={{
@@ -35,16 +34,16 @@ const OrderSummary = ({ subtotal, checkout }) => {
           <Typography variant="body1" style={{ marginTop: "1rem" }}>
             Estimated Total: ${subtotal.toFixed(2)}
           </Typography>
-          <Link to = {checkout ? "/complete" : "/checkout"}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            style={{ marginTop: "20px" }}
-            disabled={subtotal <= 0} // Disable button if there's nothing in the cart
-          >
-            {checkout ? "Place Order" :"Checkout"}
-          </Button>
+          <Link to={checkout ? "/complete" : "/checkout"}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              style={{ marginTop: "20px" }}
+              disabled={subtotal <= 0} // Disable button if there's nothing in the cart
+            >
+              {checkout ? "Submit" : "Checkout"}
+            </Button>
           </Link>
         </CardContent>
       </Card>
