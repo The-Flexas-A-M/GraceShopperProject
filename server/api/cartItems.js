@@ -1,12 +1,11 @@
 const router = require("express").Router();
-const { RequestQuoteRounded } = require("@mui/icons-material");
 const {
   models: { CartItem, User, Product },
 } = require("../db");
 
 // Route to serve CartItems
 router.get("/:userId", async (req, res, next) => {
-  console.log("Endpoint /cartItems/:userId hit"); // test 
+  console.log("Endpoint /api/cartItems/:userId hit"); // test 
   try {
     const userId = req.params.userId;
     const user = await User.findByPk(userId);
@@ -45,6 +44,14 @@ router.delete("/:userId/:productId", async (req, res, next) => {
     next(error);
   }
 });
+router.post("/:userId", async (req, res) =>{
+  console.log("addToCart", req.body.userId)
+  const newCartItem = await CartItem.create({
+    productId: req.body.productId, 
+    userId: req.body.userId
+  })
+})
+
 router.put('/:userId/:productId', async (req, res, next) => {
   try {
     const { userId, productId } = req.params;
@@ -57,7 +64,7 @@ router.put('/:userId/:productId', async (req, res, next) => {
       },
     });
     if (item) {
-      item.quantity -= quantity;
+      item.quantity = quantity;
 
       if (item.quantity <= 0) {
         await item.destroy();
@@ -65,7 +72,7 @@ router.put('/:userId/:productId', async (req, res, next) => {
         await item.save();
       }
 
-      res.status(200).send('item updated');
+      res.json(item);
     } else {
       res.status(404).send('item not found');
     }

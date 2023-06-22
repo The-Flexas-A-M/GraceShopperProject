@@ -14,11 +14,60 @@ import { styled, alpha } from "@mui/material/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Drawer from "@mui/material/Drawer";
 import SideNavBar from "../sidenavbar/SideNavBar";
+import {useRef} from 'react'
 
-const Navbar = () => {
+
+// const Search = styled('div')(({ theme }) => ({
+//   position: 'relative',
+//   borderRadius: theme.shape.borderRadius,
+//   backgroundColor: alpha(theme.palette.common.white, 0.15),
+//   '&:hover': {
+//     backgroundColor: alpha(theme.palette.common.white, 0.25),
+//   },
+//   marginLeft: 0,
+//   width: '100%',
+//   [theme.breakpoints.up('sm')]: {
+//     marginLeft: theme.spacing(1),
+//     width: 'auto',
+//   },
+// }));
+
+// const SearchIconWrapper = styled('div')(({ theme }) => ({
+//   padding: theme.spacing(0, 2),
+//   height: '100%',
+//   position: 'absolute',
+//   pointerEvents: 'none',
+//   display: 'flex',
+//   alignItems: 'center',
+//   justifyContent: 'center',
+// }));
+
+// const StyledInputBase = styled(InputBase)(({ theme }) => ({
+//   color: 'inherit',
+//   '& .MuiInputBase-input': {
+//     padding: theme.spacing(1, 1, 1, 0),
+//     // vertical padding + font size from searchIcon
+//     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+//     transition: theme.transitions.create('width'),
+//     width: '100%',
+//     [theme.breakpoints.up('sm')]: {
+//       width: '12ch',
+//       '&:focus': {
+//         width: '20ch',
+//       },
+//     },
+//   },
+// }));
+
+
+const Navbar = ({searchString , setSearchString}) => {
+  const inp = useRef();
+
   const isLoggedIn = useSelector((state) => !!state.auth.me.id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  
   const logoutAndRedirectHome = () => {
     dispatch(logout());
     navigate("/login");
@@ -63,10 +112,13 @@ const Navbar = () => {
 
           <div class="search">
             <input
+            ref ={inp}
+            onChange={e => e.target.value =='' && setSearchString("")}
+           
               type="text"
               placeholder="Search by name, genre, or platform..."
             />
-            <button type="submit">Go!</button>
+            <button onClick={()=> {setSearchString(inp.current.value), navigate("/allproducts")}} type="submit">Go!</button>
           </div>
           <Typography
             variant="h6"
@@ -79,7 +131,7 @@ const Navbar = () => {
               fontSize: "2.5rem",
             }}
           >
-            GameWorld
+           <Link to="/"><span id="logo">GameWorld</span></Link> 
           </Typography>
           <IconButton
             size="large"
@@ -120,7 +172,7 @@ const Navbar = () => {
         onClose={toggleDrawer(false)} // This will close the drawer when user clicks outside it
         classes={{ paper: 'drawer-paper' }}
       >
-        <SideNavBar />
+        <SideNavBar setShowSideBar={setDrawerOpen}/>
       </Drawer>
     </Box>
   );
