@@ -11,7 +11,11 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { removeCartItem, fetchCartItems, updateCartItem} from "./cartItemSlice";
+import {
+  removeCartItem,
+  fetchCartItems,
+  updateCartItem,
+} from "./cartItemSlice";
 
 const CartItem = ({ item }) => {
   const auth = useSelector((state) => state.auth);
@@ -19,37 +23,49 @@ const CartItem = ({ item }) => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(item.quantity);
 
+  const isProduct = item.product !== undefined;
 
-  
   const handleRemoveClick = () => {
-    console.log('this is item product ID ----->', item.product.id);  //
-    dispatch(removeCartItem({userId: userId, productId: item.product.id}))
-    .unwrap()
-    .then(({ userId }) => {
-      dispatch(fetchCartItems(userId)); // fetch updated cart items
-    });
-};
+    console.log("this is item product ID ----->", item.product.id); //
+    dispatch(removeCartItem({ userId: userId, productId: item.product.id }))
+      .unwrap()
+      .then(({ userId }) => {
+        dispatch(fetchCartItems(userId)); // fetch updated cart items
+      });
+  };
 
   const handleChange = (event) => {
     setQuantity(event.target.value);
-    dispatch(updateCartItem({ userId, productId: item.product.id, quantity: event.target.value}))
-    .unwrap()
-    .then(({ userId }) => {
-      dispatch(fetchCartItems(userId)); // fetch updated cart items
-    });
+    const productId = isProduct ? item.product.id : item.id;
+    dispatch(
+      updateCartItem({
+        userId,
+        productId: item.product.id,
+        quantity: event.target.value,
+      })
+    )
+      .unwrap()
+      .then(({ userId }) => {
+        dispatch(fetchCartItems(userId)); // fetch updated cart items
+      });
   };
+
+  const name = isProduct ? item.product.name : item.name;
+  const description = isProduct ? item.product.description : item.description;
+  const imageUrl = isProduct ? item.product.imageUrl : item.imageUrl;
+  const price = isProduct ? item.product.price : item.price;
 
   return (
     <Card sx={{ border: "1px solid grey" }}>
       <CardContent>
-        <Typography variant="h5">{item.product.name}</Typography>
-        <Typography variant="body2">{item.product.description}</Typography>
+        <Typography variant="h5">{name}</Typography>
+        <Typography variant="body2">{description}</Typography>
         <CardMedia
           component="img"
-          image={item.product.imageUrl}
+          image={imageUrl}
           sx={{ width: "300px", height: "auto" }}
         />
-        <Typography variant="h6">{`$${item.product.price}`}</Typography>
+        <Typography variant="h6">{`$${price}`}</Typography>
       </CardContent>
       <CardActions>
         <InputLabel id="quantity-button-label">QTY</InputLabel>

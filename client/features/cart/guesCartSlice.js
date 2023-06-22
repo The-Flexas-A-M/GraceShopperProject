@@ -27,7 +27,7 @@ export const guestCartSlice = createSlice({
           state.splice(index, 1);
         }
       }
-      localStorage.setItem("guestCart", JSON, stringify(state));
+      localStorage.setItem("guestCart", JSON.stringify(state));
     },
     clearGuestCart: (state) => {
       state = [];
