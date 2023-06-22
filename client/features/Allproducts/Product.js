@@ -10,26 +10,32 @@ import { addToGuestCart } from "../cart/guesCartSlice";
 
 function Product({product}){
     const auth = useSelector((state) => state.auth);
+    const { cartItem } = useSelector((state) => state.cartItem)
     const userId = auth.me ? auth.me.id : null;
     const dispatch = useDispatch();
 
     useEffect(() => {
-        // console.log("userID", userId)
-      }, [userId])
+        // console.log("cartItem", cartItem)
+      }, [cartItem])
 
     const handleAddClick=() => {
-        if (userId) {
-        // console.log("productID", product.id)
-        dispatch(addToCart({userId: userId, productId: product.id}))
-    .unwrap()
-    .then(({ userId }) => {
-      dispatch(fetchCartItems(userId)); // fetch updated cart items
-    });
-} else {
-    dispatch(addToGuestCart(product));
-  }
-}
-
+        const itemExists = cartItem.find((item) => item.productId === product.id)
+        console.log("product handle click", itemExists)
+        console.log("product handle click cart item", cartItem)
+        if (itemExists) {
+            dispatch(updateCartItem({userId: userId, productId: product.id, quantity: itemExists.quantity + 1}))
+        .unwrap()
+        .then(({ userId }) => {
+          dispatch(fetchCartItems(userId)); // fetch updated cart items
+        });
+        }else{
+            dispatch(addToCart({userId: userId, productId: product.id}))
+        .unwrap()
+        .then(({ userId }) => {
+          dispatch(fetchCartItems(userId)); // fetch updated cart items
+        });
+        }
+    }
 return <div className="product">
     <Link to={"/products/"+product.id}>
     <div className="product-image">
@@ -37,7 +43,7 @@ return <div className="product">
     </div>
     <div className="product-info">
         <h3 className="product-name">{product.name}</h3>
-        <p className="product-description">Description:{product.description.slice(0 ,210)}...</p>
+        {/* <p className="product-description">Description:{product.description.slice(0 ,210)}...</p> */}
         <p className="product-genre">Genre:{product.genre}</p>
        <div className="product-buy">
        <p className="product-price">${product.price}</p>

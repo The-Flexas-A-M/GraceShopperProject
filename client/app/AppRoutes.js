@@ -8,6 +8,8 @@ import AllProducts from '../features/Allproducts/AllProducts';
 import SingleProduct from '../features/SingleProduct/SingleProduct';
 import ShopByGenre from '../features/ShopByGenre/ShopByGenre';
 import Cart from "../features/cart/Cart"
+import Checkout from "../features/cart/Checkout"
+import Complete from '../features/cart/Complete';
 
 /**
  * COMPONENT
@@ -35,7 +37,10 @@ const AppRoutes = ({searchString, setSearchString}) => {
           <Route path="/home" element={<Home />} />
           <Route path="/genre/:genre" element={<ShopByGenre searchString={searchString} setSearchString={setSearchString}/>}/>
           <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/complete" element={<Complete />} />
           <Route path="/*" element={<Home />} />
+
        
       {!isLoggedIn &&(
         

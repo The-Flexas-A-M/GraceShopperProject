@@ -29,6 +29,7 @@ const Cart = () => {
       0
     );
   }, [cartItems]);
+console.log("cart", cartItems)
 
   useEffect(() => {
     if (userId) {
@@ -57,7 +58,7 @@ const Cart = () => {
       <Box sx={{ flexBasis: "70%", marginRight: "2rem" }}>
         Cart Is Working
         {cartItems.map((item) => (
-          <CartItem item={item} key={item.id} />
+          <CartItem checkout={false} item={item} key={item.id} />
         ))}
       </Box>
       <Box
@@ -65,7 +66,7 @@ const Cart = () => {
           flexBasis: "30%"
         }}
       >
-        <OrderSummary subtotal={subtotal} />
+        <OrderSummary checkout={false} subtotal={subtotal} />
       </Box>
     </Box>
   );

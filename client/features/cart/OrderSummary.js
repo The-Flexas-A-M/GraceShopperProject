@@ -4,8 +4,10 @@ import { Box, Card, CardContent, Typography, Button } from "@mui/material";
 import { clearCart } from "./cartItemSlice";
 import { clearGuestCart } from "./guesCartSlice";
 
+import { Link } from "react-router-dom";
 
-const OrderSummary = ({ subtotal }) => {
+
+const OrderSummary = ({ subtotal, checkout }) => {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.auth.me ? true : false);
 
@@ -49,6 +51,7 @@ const OrderSummary = ({ subtotal }) => {
           <Typography variant="body1" style={{ marginTop: "1rem" }}>
             Estimated Total: ${subtotal.toFixed(2)}
           </Typography>
+          <Link to = {checkout ? "/complete" : "/checkout"}>
           <Button
             variant="contained"
             color="primary"
@@ -57,8 +60,9 @@ const OrderSummary = ({ subtotal }) => {
             disabled={subtotal <= 0} // Disable button if there's nothing in the cart
             onClick={handleCheckout}
           >
-            Checkout
+            {checkout ? "Submit" :"Checkout"}
           </Button>
+          </Link>
         </CardContent>
       </Card>
     </Box>

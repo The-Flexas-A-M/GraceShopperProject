@@ -17,7 +17,7 @@ import {
   updateCartItem,
 } from "./cartItemSlice";
 
-const CartItem = ({ item }) => {
+const CartItem = ({ item, checkout }) => {
   const auth = useSelector((state) => state.auth);
   const userId = auth.me ? auth.me.id : null;
   const dispatch = useDispatch();
@@ -59,7 +59,10 @@ const CartItem = ({ item }) => {
     <Card sx={{ border: "1px solid grey" }}>
       <CardContent>
         <Typography variant="h5">{name}</Typography>
-        <Typography variant="body2">{description}</Typography>
+        {!checkout ?
+          <Typography variant="body2">{description}</Typography>
+          : <></>
+        }
         <CardMedia
           component="img"
           image={imageUrl}
