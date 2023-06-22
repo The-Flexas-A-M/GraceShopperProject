@@ -43,7 +43,7 @@ const OrderSummary = ({ subtotal, checkout }) => {
             style={{ marginTop: "20px" }}
             disabled={subtotal <= 0} // Disable button if there's nothing in the cart
           >
-            {checkout ? "Submit" :"Checkout"}
+            {checkout ? "Place Order" :"Checkout"}
           </Button>
           </Link>
         </CardContent>
