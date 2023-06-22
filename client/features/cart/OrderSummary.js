@@ -4,7 +4,6 @@ import { Box, Card, CardContent, Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const OrderSummary = ({ subtotal, checkout }) => {
-  console.log("this is subtotal---->", subtotal); // Add this line in OrderSummary component
   return (
     <Box
       sx={{

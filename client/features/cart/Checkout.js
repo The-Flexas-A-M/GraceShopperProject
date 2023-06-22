@@ -15,12 +15,9 @@ const Checkout = () => {
   const user = useSelector((state) => state.auth.me);
 
   const userId = auth.me ? auth.me.id : null;
-  console.log("userId:---->", userId);
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cartItem.cartItem);
-  console.log("cartItems:---->", cartItems);
   const guestCartItems = useSelector(selectGuestCart);
-  console.log("guestCartItems:---->", guestCartItems);
   const cartStatus = useSelector((state) => state.cartItem.status);
   const error = useSelector((state) => state.cartItem.error);
   // Determine which items to display
@@ -28,18 +25,15 @@ const Checkout = () => {
   if (!displayItems || displayItems.length === 0) {
     return <div>Loading...</div>;
   }
-  console.log("displayItems:---->", displayItems);
   //   const [quantity, setQuantity] = useState(item.quantity);
   const subtotal = useMemo(() => {
-    return displayItems 
+    return displayItems
       ? displayItems.reduce((acc, item) => {
-          console.log('Price:', item.price);
-          console.log('Quantity:', item.quantity);
           return acc + Number(item.price || 0) * item.quantity;
-      }, 0)
+        }, 0)
       : 0;
   }, [displayItems]);
-  console.log("subtotal:---->", subtotal);
+
   useEffect(() => {
     if (user && userId) {
       // If the user is logged in and userId is defined
