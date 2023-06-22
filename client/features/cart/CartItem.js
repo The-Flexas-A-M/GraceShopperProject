@@ -16,6 +16,7 @@ import {
   fetchCartItems,
   updateCartItem,
 } from "./cartItemSlice";
+import { updateGuestCartItem } from "./guesCartSlice";
 
 const CartItem = ({ item, checkout }) => {
   const auth = useSelector((state) => state.auth);
@@ -36,19 +37,32 @@ const CartItem = ({ item, checkout }) => {
 
   const handleChange = (event) => {
     setQuantity(event.target.value);
+    if(userId) {
     const productId = isProduct ? item.product.id : item.id;
     dispatch(
       updateCartItem({
         userId,
-        productId: item.product.id,
+        productId: productId,
         quantity: event.target.value,
       })
     )
       .unwrap()
       .then(({ userId }) => {
         dispatch(fetchCartItems(userId)); // fetch updated cart items
-      });
-  };
+      })
+       .catch((error) => {
+    console.error("Failed to update cart item:", error);
+  });
+} else {
+  // Handle guest cart update
+  dispatch(
+    updateGuestCartItem({
+      productId: item.id,
+      quantity: event.target.value,
+    })
+  )
+}
+};
 
   const name = isProduct ? item.product.name : item.name;
   const description = isProduct ? item.product.description : item.description;

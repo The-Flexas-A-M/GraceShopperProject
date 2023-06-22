@@ -1,6 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = JSON.parse(localStorage.getItem("guestCart")) || [];
+
+export const updateGuestCartItem = createAsyncThunk(
+  'guestCart/updateItem',
+  async ({ productId, quantity }, { getState }) => {
+    const { guestCart } = getState();
+
+    // Find the item index in the guestCart array
+    const itemIndex = guestCart.findIndex(item => item.id === productId);
+
+    if (itemIndex === -1) {
+      throw new Error('Item not found in the guest cart');
+    }
+
+    // Update the quantity
+    guestCart[itemIndex].quantity = quantity;
+
+    // Return the updated guestCart array
+    return guestCart;
+  }
+);
 
 export const guestCartSlice = createSlice({
   name: "guestCart",
@@ -34,6 +55,7 @@ export const guestCartSlice = createSlice({
       state = [];
       localStorage.setItem("guestCart", JSON.stringify(state));
     },
+    
   },
 });
 
