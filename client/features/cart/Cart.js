@@ -1,34 +1,47 @@
 import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import cartItemSlice, { fetchCartItems } from "./cartItemSlice";
+import { fetchCartItems } from "./cartItemSlice";
 import CartItem from "./CartItem";
 import { Box } from "@mui/material";
 import OrderSummary from "./OrderSummary";
+import { selectGuestCart, setGuestCartItems } from "./guesCartSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const userId = auth.me ? auth.me.id : null;
-  const cartItems = useSelector((state) => state.cartItem.cartItem);
-  const cartStatus = useSelector((state) => state.cartItem.status);
+  const cartItems = useSelector((state) =>
+    state.auth.me && Object.keys(state.auth.me).length > 0
+      ? state.cartItem.cartItem
+      : selectGuestCart(state)
+  );
   const error = useSelector((state) => state.cartItem.error);
+  const cartStatus = useSelector((state) => state.cartItem.status);
 
   const subtotal = useMemo(() => {
-    return cartItems.reduce(
-      (acc, item) => acc + item.product.price * item.quantity,
-      0
-    );
+    return cartItems.reduce((acc, item) => {
+      if (item.price) {
+        return acc + Number(item.price);
+      } else {
+        console.error("Missing price in item:", item);
+        return acc;
+      }
+    }, 0);
   }, [cartItems]);
-console.log("cart", cartItems)
 
   useEffect(() => {
     if (userId) {
       dispatch(fetchCartItems(userId));
+    } else {
+      const guestCart = localStorage.getItem("guestCart");
+      if (guestCart) {
+        dispatch(setGuestCartItems(JSON.parse(guestCart)));
+      }
     }
   }, [userId, dispatch]);
 
-  if (!userId) {
-    return <div>Loading...</div>;
+  if (error) {
+    return <div>{error}</div>;
   }
 
   if (cartStatus === "loading") {
@@ -53,7 +66,7 @@ console.log("cart", cartItems)
       </Box>
       <Box
         sx={{
-          flexBasis: "30%"
+          flexBasis: "30%",
         }}
       >
         <OrderSummary checkout={false} subtotal={subtotal} />

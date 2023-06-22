@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Card, CardContent, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { clearCart } from './cartItemSlice';
+import { clearGuestCart } from './guesCartSlice';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 const Complete = () => {
   const user = useSelector((state) => state.auth.me);
+  const dispatch =  useDispatch(); 
+  
+  useEffect(() => {
+    if (user) {
+      dispatch(clearCart());
+    } else {
+      dispatch(clearGuestCart)
+    }
+  }, [dispatch, user])
 
 
   return (
