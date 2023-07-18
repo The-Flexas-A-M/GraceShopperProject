@@ -3,6 +3,10 @@
   padding: 0;
 }
 
+#logo {
+  color:white
+}
+
 body {
   font-family: sans-serif;
 }
