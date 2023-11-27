@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../app/store";
@@ -14,8 +14,9 @@ import { styled, alpha } from "@mui/material/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Drawer from "@mui/material/Drawer";
 import SideNavBar from "../sidenavbar/SideNavBar";
-import {useRef} from 'react'
-
+import { useRef } from "react";
+import { selectGuestCart, setGuestCartItems } from "../cart/guesCartSlice";
+import { fetchCartItems } from "../cart/cartItemSlice";
 
 // const Search = styled('div')(({ theme }) => ({
 //   position: 'relative',
@@ -59,20 +60,35 @@ import {useRef} from 'react'
 //   },
 // }));
 
-
-const Navbar = ({searchString , setSearchString}) => {
+const Navbar = ({ searchString, setSearchString }) => {
   const inp = useRef();
 
   const isLoggedIn = useSelector((state) => !!state.auth.me.id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  
+  const auth = useSelector((state) => state.auth);
+  const userId = auth.me ? auth.me.id : null;
+  const cartItems = useSelector((state) =>
+    state.auth.me && Object.keys(state.auth.me).length > 0
+      ? state.cartItem.cartItem
+      : selectGuestCart(state)
+  );
+  console.log(userId);
+  console.log(cartItems);
   const logoutAndRedirectHome = () => {
     dispatch(logout());
     navigate("/login");
   };
-
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchCartItems(userId));
+    } else {
+      const guestCart = localStorage.getItem("guestCart");
+      if (guestCart) {
+        dispatch(setGuestCartItems(JSON.parse(guestCart)));
+      }
+    }
+  }, [userId, dispatch]);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = (open) => (event) => {
@@ -112,13 +128,19 @@ const Navbar = ({searchString , setSearchString}) => {
 
           <div class="search">
             <input
-            ref ={inp}
-            onChange={e => e.target.value =='' && setSearchString("")}
-           
+              ref={inp}
+              onChange={(e) => e.target.value == "" && setSearchString("")}
               type="text"
               placeholder="Search by name, genre, or platform..."
             />
-            <button onClick={()=> {setSearchString(inp.current.value), navigate("/allproducts")}} type="submit">Go!</button>
+            <button
+              onClick={() => {
+                setSearchString(inp.current.value), navigate("/allproducts");
+              }}
+              type="submit"
+            >
+              Go!
+            </button>
           </div>
           <Typography
             variant="h6"
@@ -131,7 +153,9 @@ const Navbar = ({searchString , setSearchString}) => {
               fontSize: "2.5rem",
             }}
           >
-           <Link to="/"><span id="logo">GameWorld</span></Link> 
+            <Link to="/">
+              <span id="logo">GameWorld</span>
+            </Link>
           </Typography>
           <IconButton
             size="large"
@@ -140,8 +164,9 @@ const Navbar = ({searchString , setSearchString}) => {
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            <Link to='/cart'>
-            <ShoppingCartIcon sx={{ color: "white" }} />
+            <Link to="/cart" className="cartLink">
+              <ShoppingCartIcon sx={{ color: "white" }} />
+              <span className="cartLength">{cartItems.length}</span>
             </Link>
           </IconButton>
           <nav id="login-nav">
@@ -160,8 +185,12 @@ const Navbar = ({searchString , setSearchString}) => {
               </div>
             ) : (
               <div>
-                <Link class="signin-up" to="/login">Login</Link>
-                <Link class="signin-up" to="/signup">Sign Up</Link>
+                <Link class="signin-up" to="/login">
+                  Login
+                </Link>
+                <Link class="signin-up" to="/signup">
+                  Sign Up
+                </Link>
               </div>
             )}
           </nav>
@@ -170,9 +199,9 @@ const Navbar = ({searchString , setSearchString}) => {
       <Drawer
         open={drawerOpen}
         onClose={toggleDrawer(false)} // This will close the drawer when user clicks outside it
-        classes={{ paper: 'drawer-paper' }}
+        classes={{ paper: "drawer-paper" }}
       >
-        <SideNavBar setShowSideBar={setDrawerOpen}/>
+        <SideNavBar setShowSideBar={setDrawerOpen} />
       </Drawer>
     </Box>
   );

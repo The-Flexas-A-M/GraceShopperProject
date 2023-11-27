@@ -29,16 +29,7 @@ const Cart = () => {
     }, 0);
   }, [cartItems]);
 
-  useEffect(() => {
-    if (userId) {
-      dispatch(fetchCartItems(userId));
-    } else {
-      const guestCart = localStorage.getItem("guestCart");
-      if (guestCart) {
-        dispatch(setGuestCartItems(JSON.parse(guestCart)));
-      }
-    }
-  }, [userId, dispatch]);
+
 
   if (error) {
     return <div>{error}</div>;

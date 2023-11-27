@@ -3,16 +3,18 @@ import axios from "axios";
 
 export const addToCart = createAsyncThunk(
   "cartItems/addToCart",
-  async ({userId, productId}) => {
+  async ({ userId, productId }) => {
     try {
-      const response = await axios.post(`/api/cartItems/${userId}`, { productId, userId });
+      const response = await axios.post(`/api/cartItems/${userId}`, {
+        productId,
+        userId,
+      });
       return response.data;
     } catch (error) {
       throw Error("Failed to add item to cart");
     }
   }
 );
-
 
 export const fetchCartItems = createAsyncThunk(
   "cartitem/fetchCartItems",
@@ -28,12 +30,12 @@ export const fetchCartItems = createAsyncThunk(
 
 export const removeCartItem = createAsyncThunk(
   "cartItems/removeCartItem",
-  async ({userId, productId}) => {
+  async ({ userId, productId }) => {
     try {
       const response = await axios.delete(
         `/api/cartItems/${userId}/${productId}`
       );
-      return {data: response.data, userId};;
+      return { data: response.data, userId };
     } catch (error) {
       throw Error("Failed to delete cartItem");
     }
@@ -41,19 +43,18 @@ export const removeCartItem = createAsyncThunk(
 );
 
 export const updateCartItem = createAsyncThunk(
-  'cartItems/updateCartItem',
-  async ({userId, productId, quantity}) => {
+  "cartItems/updateCartItem",
+  async ({ userId, productId, quantity }) => {
     try {
-      const response = await axios.put(
-        `api/cartItems/${userId}/${productId}`,
-        {quantity}
-      );
-      return {data: response.data, userId };
+      const response = await axios.put(`api/cartItems/${userId}/${productId}`, {
+        quantity,
+      });
+      return { data: response.data, userId };
     } catch (error) {
-      throw Error("Failed to update carItem")
+      throw Error("Failed to update carItem");
     }
   }
-)
+);
 
 export const clearCart = createAsyncThunk(
   "cartItems/clearCart",
@@ -77,9 +78,10 @@ export const cartItemSlice = createSlice({
   name: "cartItem",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {  
+  extraReducers: (builder) => {
     builder.addCase(addToCart.fulfilled, (state, action) => {
       state.status = "succeeded";
+      console.log(action.payload);
       state.cartItem = [...state.cartItem, action.payload];
     });
     builder.addCase(addToCart.rejected, (state, action) => {
@@ -91,6 +93,7 @@ export const cartItemSlice = createSlice({
     }),
       builder.addCase(fetchCartItems.fulfilled, (state, action) => {
         state.status = "succeeded";
+        console.log(action.payload);
         state.cartItem = action.payload;
       }),
       builder.addCase(fetchCartItems.rejected, (state, action) => {
@@ -108,11 +111,13 @@ export const cartItemSlice = createSlice({
       state.status = "failed";
       state.error = action.payload;
     });
-    builder.addCase(updateCartItem.fulfilled, (state,action) => {
+    builder.addCase(updateCartItem.fulfilled, (state, action) => {
       state.status = "succeeded";
-      const index = state.cartItem.findIndex((item) => item.id === action.payload);
-      if (index !== -1 ) {
-        state.cartItem[index] = action.payload
+      const index = state.cartItem.findIndex(
+        (item) => item.id === action.payload
+      );
+      if (index !== -1) {
+        state.cartItem[index] = action.payload;
       }
     });
     builder.addCase(updateCartItem.rejected, (state, action) => {

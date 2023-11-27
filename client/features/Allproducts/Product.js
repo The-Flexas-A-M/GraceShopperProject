@@ -3,7 +3,11 @@ import React, { useState, useEffect } from "react";
 // import { addToCart } from "../cartItemSlice";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, fetchCartItems } from "../cart/cartItemSlice";
+import {
+  addToCart,
+  fetchCartItems,
+  updateCartItem,
+} from "../cart/cartItemSlice";
 import { addToGuestCart } from "../cart/guesCartSlice";
 
 function Product({ product }) {
@@ -20,7 +24,7 @@ function Product({ product }) {
     if (userId) {
       // logged-in user's flow, which is already okay
       const itemExists = cartItem.find((item) => item.productId === product.id);
-  
+
       if (itemExists) {
         dispatch(
           updateCartItem({
@@ -28,12 +32,16 @@ function Product({ product }) {
             productId: product.id,
             quantity: itemExists.quantity + 1,
           })
-        ).then(({ userId }) => {
+        ).then((res) => {
+          console.log(userId);
+
           dispatch(fetchCartItems(userId)); // fetch updated cart items
         });
       } else {
         dispatch(addToCart({ userId: userId, productId: product.id })).then(
-          ({ userId }) => {
+          (res) => {
+            console.log("userId");
+
             dispatch(fetchCartItems(userId)); // fetch updated cart items
           }
         );
@@ -43,7 +51,7 @@ function Product({ product }) {
       dispatch(addToGuestCart(product));
     }
   };
-  
+
   return (
     <div className="product">
       <Link to={"/products/" + product.id}>
