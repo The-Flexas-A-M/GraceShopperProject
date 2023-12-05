@@ -4,15 +4,15 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 const initialState = JSON.parse(localStorage.getItem("guestCart")) || [];
 
 export const updateGuestCartItem = createAsyncThunk(
-  'guestCart/updateItem',
+  "guestCart/updateItem",
   async ({ productId, quantity }, { getState }) => {
     const { guestCart } = getState();
 
     // Find the item index in the guestCart array
-    const itemIndex = guestCart.findIndex(item => item.id === productId);
+    const itemIndex = guestCart.findIndex((item) => item.id === productId);
 
     if (itemIndex === -1) {
-      throw new Error('Item not found in the guest cart');
+      throw new Error("Item not found in the guest cart");
     }
 
     // Update the quantity
@@ -28,7 +28,9 @@ export const guestCartSlice = createSlice({
   initialState,
   reducers: {
     addToGuestCart: (state, action) => {
-      const existingProduct = state.find((item) => item.id === action.payload.id);
+      const existingProduct = state.find(
+        (item) => item.id === action.payload.id
+      );
       if (existingProduct) {
         existingProduct.quantity += 1;
       } else {
@@ -50,15 +52,13 @@ export const guestCartSlice = createSlice({
     setGuestCartItems: (state, action) => {
       state.length = 0;
       state.push(...action.payload);
-  },
+    },
     clearGuestCart: (state) => {
       state = [];
       localStorage.setItem("guestCart", JSON.stringify(state));
     },
-    
   },
 });
-
 
 export const {
   addToGuestCart,
@@ -67,7 +67,6 @@ export const {
   clearGuestCart,
 } = guestCartSlice.actions;
 
-  export const selectGuestCart = (state) => state.guestCart;
-
+export const selectGuestCart = (state) => state.guestCart;
 
 export default guestCartSlice.reducer;
