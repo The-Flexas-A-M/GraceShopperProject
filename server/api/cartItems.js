@@ -5,16 +5,16 @@ const {
 
 // Route to serve CartItems
 router.get("/:userId", async (req, res, next) => {
-  console.log("Endpoint /api/cartItems/:userId hit"); // test 
+  console.log("Endpoint /api/cartItems/:userId hit"); // test
   try {
     const userId = req.params.userId;
     const user = await User.findByPk(userId);
     if (user) {
-      const cartItems = await CartItem.findAll({ 
+      const cartItems = await CartItem.findAll({
         where: { userId: userId },
         include: {
-          model: Product
-        } 
+          model: Product,
+        },
       });
       res.status(200).json(cartItems);
     } else {
@@ -44,40 +44,63 @@ router.delete("/:userId/:productId", async (req, res, next) => {
     next(error);
   }
 });
-router.post("/:userId", async (req, res) =>{
-  console.log("addToCart", req.body.userId)
-  const newCartItem = await CartItem.create({
-    productId: req.body.productId, 
-    userId: req.body.userId
-  })
-})
+router.post("/:userId", async (req, res, next) => {
+  try {
+    const { productId, userId } = req.body;
+    let cartItem = await CartItem.findOne({
+      where: {
+        productId: productId,
+        userId: userId,
+      },
+    });
 
-router.put('/:userId/:productId', async (req, res, next) => {
+    if (cartItem) {
+      // If the item already exists, increment the quantity
+      cartItem.quantity += 1;
+    } else {
+      // If the item doesn't exist, create a new cart item
+      cartItem = await CartItem.create({
+        productId: productId,
+        userId: userId,
+        quantity: 1,
+      });
+    }
+
+    await cartItem.save();
+    res.status(201).json(cartItem);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put("/:userId/:productId", async (req, res, next) => {
   try {
     const { userId, productId } = req.params;
-    const { quantity } = req.body
+    const { quantity } = req.body;
 
-    const item = await CartItem.findOne({
+    let cartItem = await CartItem.findOne({
       where: {
         userId: userId,
         productId: productId,
       },
     });
-    if (item) {
-      item.quantity = quantity;
 
-      if (item.quantity <= 0) {
-        await item.destroy();
+    if (cartItem) {
+      cartItem.quantity = quantity;
+
+      if (cartItem.quantity <= 0) {
+        // If quantity is less than or equal to 0, remove the item from the cart
+        await cartItem.destroy();
       } else {
-        await item.save();
+        await cartItem.save();
       }
 
-      res.json(item);
+      res.json(cartItem);
     } else {
-      res.status(404).send('item not found');
+      res.status(404).send("Item not found");
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 
