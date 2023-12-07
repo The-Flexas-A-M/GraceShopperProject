@@ -21,7 +21,7 @@ if (process.env.DATABASE_URL) {
     },
   };
 }
-console.log(`postgres://localhost:5432/${databaseName}`);
+// console.log(`postgres://localhost:5432/${databaseName}`);
 const db = new Sequelize(
   process.env.DATABASE_URL || `postgres://localhost:5432/${databaseName}`,
   config

@@ -4,7 +4,7 @@
 }
 
 #logo {
-  color:white
+  color:rgb(255, 255, 255)
 }
 
 body {
@@ -36,7 +36,7 @@ form div {
 }
 
 .signin-up:hover {
-  color: lightgrey;
+  color: rgb(165, 182, 239);
 }
 
 #logout {
@@ -47,7 +47,7 @@ form div {
 }
 
 #logout:hover {
-  background-color: lightgrey;
+  background-color: rgb(125, 148, 238);
 }
 
 #login-nav {
@@ -62,7 +62,7 @@ form div {
   width: 20em;
   height: 1.5em;
   border-radius: 0.5em;
-  border: 1px solid lightgrey;
+  border: 1px solid rgb(19, 56, 190);
   padding: 0.5em;
 }
 
@@ -71,7 +71,7 @@ form div {
   height: 2.7em;
   width: 4em;
   border-radius: 0.5em;
-  border: 1px solid lightgrey;
+  border: 1px solid rgb(8, 90, 222);
   cursor: pointer;
 }
 
@@ -139,19 +139,15 @@ span {
 
 #footer {
   display: flex;
-  /* position: fixed; */
-  /* bottom: 0; */
   background-color: maroon;
   color: white;
   padding: 1em;
-  /* text-align: center; */
   height: 25vh;
   margin-top: 5vh;
 }
 
 .footer-container {
   width: 33vw;
-  /* background-color: black; */
   padding: 0.5em;
 }
 
@@ -192,7 +188,7 @@ span {
 #footer-socials {
   display: flex;
   align-items: flex-end;
-  gap: 1em;
+  gap: 2em;
 }
 
 @media screen and (min-width: 600px) {
@@ -294,7 +290,8 @@ span {
 }
 
 #logo {
-  color: white !important;
+  color: rgb(255, 254, 254) !important;
+  margin-right: 12rem;
 }
 
 .cartLink {
