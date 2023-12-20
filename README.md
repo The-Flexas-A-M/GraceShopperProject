@@ -19,9 +19,7 @@ Game World is an immersive e-commerce platform dedicated to gaming enthusiasts, 
 
 <br>
 <h2>Deployed Website ⬇⬇⬇: </h2>
-<ul>
-  <li>https://gameworld.world/</li>
-</ul>
+<p>https://gameworld.world/</p>
 
 
 ## Wireframe 🖍🗒
