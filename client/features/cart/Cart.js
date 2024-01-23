@@ -77,6 +77,12 @@ const Cart = () => {
                 color: "white",
                 borderRadius: "23px",
                 fontWeight: "bold",
+                display: "block", 
+                textAlign: "center", 
+
+                "@media (max-width: 600px)": {
+                  margin: "5px",
+                },
               }}
               href="/"
             >

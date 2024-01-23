@@ -7,9 +7,9 @@ const OrderSummary = ({ subtotal, checkout }) => {
   return (
     <Box
       sx={{
-        // display: "flex",
+        display: "flex",
         flexDirection: "column",
-        // alignItems: "flex-start",
+        alignItems: "flex-start",
         justifyContent: "center",
         margin: "1rem",
         padding: "1rem",
@@ -17,7 +17,7 @@ const OrderSummary = ({ subtotal, checkout }) => {
         borderRadius: "0.5rem",
       }}
     >
-      <Card sx={{ minwidth: "30%", marginTop: "1rem" }}>
+      <Card sx={{ width: { xs: "150px", md: "400px" }, marginTop: "1rem" }}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
             Order Summary
