@@ -87,7 +87,7 @@ const Checkout = () => {
               ))}
           </Box>
         </Box>
-        <Box sx={{ display: "flex", justifyContent: "center", width: "30%" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", width: "30%", flexDirection: "column", }}>
           <div>
             <OrderSummary checkout={true} subtotal={subtotal} />
           </div>

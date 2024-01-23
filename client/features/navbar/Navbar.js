@@ -142,16 +142,13 @@ const Navbar = ({ searchString, setSearchString }) => {
   };
 
   return (
-    <Box
-      sx={{
-        flexGrow: 1,
-      }}
-    >
+    <Box>
       <AppBar position="static">
         <Toolbar
           sx={{
             bgcolor: "maroon",
             height: "10vh",
+
             display: "flex",
           }}
         >
